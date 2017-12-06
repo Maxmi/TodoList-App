@@ -2,8 +2,13 @@
   "name": "todolist",
   "version": "1.0.0",
   "description": "",
-  "main": "app.js",
+  "main": "node src/app.js",
   "scripts": {
+    "db:create": "createdb todolistapp",
+    "db:schema": "psql todolistapp < src/models/schema.sql",
+    "db:seed": "psql todolistapp < src/models/seed.sql",
+    "db:reset": "dropdb todolistapp && npm run db:create && npm run db:schema && npm run db:seed",
+    "db:drop": "dropdb todolistapp",
     "test": "npm test"
   },
   "author": "",
