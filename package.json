@@ -2,8 +2,9 @@
   "name": "todolist",
   "version": "1.0.0",
   "description": "",
-  "main": "node src/app.js",
+  "main": "src/app.js",
   "scripts": {
+    "start": "node src/app.js",
     "db:create": "createdb todolistapp",
     "db:schema": "psql todolistapp < src/models/schema.sql",
     "db:seed": "psql todolistapp < src/models/seed.sql",

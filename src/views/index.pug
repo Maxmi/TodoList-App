@@ -1,0 +1,16 @@
+extends layout
+block content
+  h1 All Current Tasks
+  div.container
+    div.currentTasks 
+      table 
+        tr
+          th #
+          th description
+          th status
+        each task in data 
+          tr
+            td= task.id
+            td= task.description
+            td= task.status
+            

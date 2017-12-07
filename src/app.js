@@ -1,17 +1,17 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const routes = require('./server/routes');
+const routes = require('./server/index');
 
 app.set('view engine', 'pug');
-app.set('views', './src/views');
+app.set('views', `${__dirname}/views`);
 
 app.use(express.static('public'));
 app.use(bodyParser.urlencoded({extended: false}));
 
 app.use('/', routes);
 
-app.use((req, res) => res.render('views/error'));
+app.use((req, res) => res.render('error'));
 
 const port = process.env.PORT || 3000;
 app.listen(port, function () {
