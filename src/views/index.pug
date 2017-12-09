@@ -1,16 +1,17 @@
 extends layout
 block content
-  h1 All Current Tasks
+  h1 My Todo List 
   div.container
+    div#addTask
+      form(method='POST')
+        div.form-group.d-flex.justify-content-around
+          label(for='description')
+          input.form-control(type='text' name='description')
+          button#addTaskBtn.btn.btn-info(type='submit') +
     div.currentTasks 
-      table 
-        tr
-          th #
-          th description
-          th status
-        each task in data 
-          tr
-            td= task.id
-            td= task.description
-            td= task.status
-            
+      ul#listOfTasks.list-group
+    div.filters(role='group').d-flex.justify-content-center
+      a.show-all.btn.btn-outline-info(href='#/' role='button') All
+      a.show-active.btn.btn-outline-info(href='#/active' role='button') Active
+      a.show-completed.btn.btn-outline-info(href='#/completed' role='button') Completed  
+    

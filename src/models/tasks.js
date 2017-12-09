@@ -22,26 +22,40 @@ const addTask = (description, status) => {
   return db.one(`
     INSERT INTO allTasks (description, status)
     VALUES ($1, $2)
+    RETURNING *
   `, [description, status])
 }
 
-const completeTask = (id) => {
-  return db.one (`
-    UPDATE allTasks
-    SET status = true
-    WHERE id = $1
-    RETURNING *
-  `, [id])
-};
 
-const updateTask = (id) => {
+//should I make just one function for updating and completing?
+//
+const makeChangesToTask = (id, columnToChange, valueToSet) => {
   return db.one(`
     UPDATE allTasks
-    SET description = $1
-    WHERE id = $2
-    RETURNING *
-  `, [id])
-};
+    SET ${columnToChange} = ${valueToSet}
+    WHERE id = $1
+    RETURNIN *
+  `, [id, columnToChange, valueToSet])
+}
+
+
+// const completeTask = (id) => {
+//   return db.one (`
+//     UPDATE allTasks
+//     SET status = true
+//     WHERE id = $1
+//     RETURNING *
+//   `, [id])
+// };
+//
+// const updateTask = (id) => {
+//   return db.one(`
+//     UPDATE allTasks
+//     SET description = $1
+//     WHERE id = $2
+//     RETURNING *
+//   `, [id])
+// };
 
 
 const deleteTask = (id) => {
@@ -57,7 +71,8 @@ module.exports = {
   getCompletedTasks,
   getOneTask,
   addTask,
-  completeTask,
-  updateTask,
+  makeChangesToTask,
+  // completeTask,
+  // updateTask,
   deleteTask
 };

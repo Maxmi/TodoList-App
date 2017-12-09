@@ -1,0 +1,43 @@
+body {
+  width: 50%;
+  margin: 0 auto;
+}
+
+input.form-control {
+  display: inline;
+  width: 90%;
+}
+
+h1 {
+  text-align: center;
+}
+
+input.completeTask {
+  height: 40px;
+  width: 40px;
+  cursor: pointer;
+}
+
+/*input[type=checkbox]:after {
+  content: '';
+  background-color: #9FFF9D;
+  display: inline-block;
+  visibility: visible;
+}*/
+
+span.desciption {
+  /*border: 1px solid blue;*/
+  /*text-align: left;*/
+  display: inline;
+}
+
+div.filters {
+  /*border: 1px solid yellow;*/
+  margin: 0 auto;
+  width: 100%;
+  padding: 2%;
+}
+
+div.filters > a  {
+  margin: 0 10px;
+}
