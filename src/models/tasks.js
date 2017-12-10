@@ -2,7 +2,7 @@ const db = require('./db');
 
 const getCurrentTasks = () => {
   return db.any(`
-    SELECT * FROM allTasks WHERE status = false;
+    SELECT * FROM allTasks WHERE status = false ORDER BY id DESC;
   `)
 };
 
@@ -16,7 +16,7 @@ const getOneTask = (id) => {
   return db.one(`
     SELECT * FROM allTasks WHERE id = $1
   `, [id])
-}
+};
 
 const addTask = (description, status) => {
   return db.one(`
@@ -24,7 +24,7 @@ const addTask = (description, status) => {
     VALUES ($1, $2)
     RETURNING *
   `, [description, status])
-}
+};
 
 
 //should I make just one function for updating and completing?
@@ -63,7 +63,7 @@ const deleteTask = (id) => {
     DELETE FROM allTasks
     WHERE id = $1
     RETURNING *
-  `)
+  `, [id])
 };
 
 module.exports = {
