@@ -35,7 +35,7 @@ router.post('/alltasks', (req, res) => {
 });
 
 
-//route to get one task 
+//route to get one task
 router.get('/alltasks/:taskID', (req, res) => {
   const id = parseInt(req.params.taskID);
   queries.getOneTask(id)
@@ -45,15 +45,13 @@ router.get('/alltasks/:taskID', (req, res) => {
 })
 
 
-
 //route to complete a task
-router.put('/alltasks/:taskID', (req, res) => {
+router.put('/alltasks/completed/:taskID', (req, res) => {
   const taskID = parseInt(req.params.taskID);
 
   return queries.completeTask(taskID)
     .then(completedTask => {
       res.render('index');
-      // res.json(updatedTask)
       console.log(`Task with id ${taskID} has been completed`);
     })
     .catch(err => console.log(err));
@@ -64,12 +62,12 @@ router.put('/alltasks/:taskID', (req, res) => {
 router.put('/alltasks/:taskID', (req, res) => {
   const taskID = parseInt(req.params.taskID);
   const newText = req.body.text;
-  console.log(newText);
+  // console.log(':: ==>', req.body);
+  // console.log(newText);
 
   return queries.editTask(taskID, newText)
     .then(editedTask => {
       res.render('index');
-      // res.json(updatedTask)
       console.log(`Task with id ${taskID} has been edited`);
     })
     .catch(err => console.log(err));

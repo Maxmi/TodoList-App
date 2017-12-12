@@ -18,9 +18,9 @@ input.completeTask {
   cursor: pointer;
 }
 
-/*.checked {
-  display: none;
-}*/
+.checked {
+  display: none !important;
+}
 
 span.desciption {
   /*border: 1px solid blue;*/

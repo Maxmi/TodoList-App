@@ -81,11 +81,11 @@ $(document).ready(() => {
 
 
   // should be only one PUT request for both complete and update actions?
-  // 
+  //
   const completeTask = (taskID) => {
     return $.ajax ({
       method: 'PUT',
-      url: `/alltasks/${taskID}`,
+      url: `/alltasks/completed/${taskID}`,
     })
   }
 
@@ -96,17 +96,17 @@ $(document).ready(() => {
     const id = li.data('id');
     completeTask(id)
       .then(() => {
-        // li.addClass('checked').hide('slow')
-        li.remove()
+        li.addClass('checked').hide('slow')
+        // li.remove()
       })
   })
 
 
-  const editTask = (taskID, newText) => {
+  const editTask = (taskID, text) => {
     return $.ajax ({
       method: 'PUT',
       url: `/alltasks/${taskID}`,
-      data: {newText},
+      data: {text},
       // dataType: 'json'
     })
   }
