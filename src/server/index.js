@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
 });
 
 
-//route to get all tasks
+//route to get current tasks
 router.get('/alltasks', (req, res) => {
   queries.getCurrentTasks()
     .then(data => {
@@ -23,13 +23,11 @@ router.get('/alltasks', (req, res) => {
 
 //route to add new task
 router.post('/alltasks', (req, res) => {
-  const {description} = req.body;
-  console.log('this is description: ', description);
+  const {newTask} = req.body;
   const status = false;
 
-  return queries.addTask(description, status)
+  return queries.addTask(newTask, status)
     .then((task) => {
-      // console.log(task);
       res.status(200)
         .json(task)
     })
@@ -37,12 +35,48 @@ router.post('/alltasks', (req, res) => {
 });
 
 
+//route to get one task 
+router.get('/alltasks/:taskID', (req, res) => {
+  const id = parseInt(req.params.taskID);
+  queries.getOneTask(id)
+    .then(task => {
+      res.json(task)
+    })
+})
+
+
 
 //route to complete a task
+router.put('/alltasks/:taskID', (req, res) => {
+  const taskID = parseInt(req.params.taskID);
+
+  return queries.completeTask(taskID)
+    .then(completedTask => {
+      res.render('index');
+      // res.json(updatedTask)
+      console.log(`Task with id ${taskID} has been completed`);
+    })
+    .catch(err => console.log(err));
+});
 
 
 
-//route to update a task
+router.put('/alltasks/:taskID', (req, res) => {
+  const taskID = parseInt(req.params.taskID);
+  const newText = req.body.text;
+  console.log(newText);
+
+  return queries.editTask(taskID, newText)
+    .then(editedTask => {
+      res.render('index');
+      // res.json(updatedTask)
+      console.log(`Task with id ${taskID} has been edited`);
+    })
+    .catch(err => console.log(err));
+});
+
+
+
 
 
 

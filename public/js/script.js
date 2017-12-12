@@ -5,20 +5,22 @@ $(document).ready(() => {
   //wrapper for new task
   const createNewTaskElement = newTask => {
     return $('<li></li>').addClass('list-group-item d-flex justify-content-between').html(`
-      <input type='checkbox' class='completeTask toggle'>
-      <span contenteditable='true' class="desciption">${newTask.description}</span>
-      <button class="deleteTask btn btn-outline-danger" type='submit'>X</button>
+
+        <input type='checkbox' class='completeTask'>
+        <span contenteditable='true' name='text' class='text'>${newTask.description}</span>
+        <button class="deleteTask btn btn-outline-danger" type='submit'>X</button>
+
     `).data('id', newTask.id)
   }
 
   //making get request to api
-  const getTasks = () => {
+  const getAllTasks = () => {
     return fetch('/alltasks');
   }
 
   //rendering retrieved info on the page
   const renderTasks = (tasks) => {
-    getTasks()
+    getAllTasks()
       .then(res => {
         return res.json();
       })
@@ -45,8 +47,8 @@ $(document).ready(() => {
   // };
 
   //jQuery ajax post
-  const addTask = (description) => {
-    return $.post('/alltasks', {description})
+  const addTask = (newTask) => {
+    return $.post('/alltasks', {newTask})
       .catch(err => console.log(err));
   };
 
@@ -54,12 +56,12 @@ $(document).ready(() => {
   $('#addForm').submit((event) => {
     event.preventDefault();
 
-    let description = $('input[name="description"]').val();
+    let newTask = $('input[name="newTask"]').val();
 
-    addTask(description)
+    addTask(newTask)
       .then(newTask => {
         $ul.prepend(createNewTaskElement(newTask));
-        $('input[name="description"]').val('');
+        $('input[name="newTask"]').val('');
       });
   });
 
@@ -76,15 +78,56 @@ $(document).ready(() => {
   // };
 
 
+
+
+  // should be only one PUT request for both complete and update actions?
+  // 
+  const completeTask = (taskID) => {
+    return $.ajax ({
+      method: 'PUT',
+      url: `/alltasks/${taskID}`,
+    })
+  }
+
   //handler for checkbox (completing a task)
-  $(() => {
-    $('input').on('click', () => {
-      $(this).parent().toggleClass('checked');
-    });
-  });
+  $('#listOfTasks').on('change', '.completeTask', (event) => {
+    const checkbox = $(event.target);
+    const li = checkbox.parent();
+    const id = li.data('id');
+    completeTask(id)
+      .then(() => {
+        // li.addClass('checked').hide('slow')
+        li.remove()
+      })
+  })
 
 
-  //handler for clicking on input (editing a task)
+  const editTask = (taskID, newText) => {
+    return $.ajax ({
+      method: 'PUT',
+      url: `/alltasks/${taskID}`,
+      data: {newText},
+      // dataType: 'json'
+    })
+  }
+
+  //handler for clicking on text (editing a task)
+  $('#listOfTasks').on('keypress', '.text', (event) => {
+    const span = $(event.target);
+    const li = span.parent();
+    const id = li.data('id');
+    if(event.which === 13) {
+      let newText = span.text();
+      console.log(newText);
+      editTask(id, newText)
+        .then(() => {
+          console.log(`Task with id ${id} edited`);
+        })
+    }
+    // console.log('Keypress');
+  })
+
+
 
   //making DELETE request to api
   // const deleteTask = id => {

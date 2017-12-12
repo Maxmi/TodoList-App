@@ -1,5 +1,11 @@
 const db = require('./db');
 
+const getAllTasks = () => {
+  return db.any(`
+    SELECT * FROM allTasks;
+  `)
+};
+
 const getCurrentTasks = () => {
   return db.any(`
     SELECT * FROM allTasks WHERE status = false ORDER BY id DESC;
@@ -8,7 +14,7 @@ const getCurrentTasks = () => {
 
 const getCompletedTasks = () => {
   return db.any(`
-    SELECT * FROM allTasks WHERE status = true;
+    SELECT * FROM allTasks WHERE status = true ORDER BY id DESC;
   `)
 };
 
@@ -27,35 +33,33 @@ const addTask = (description, status) => {
 };
 
 
-//should I make just one function for updating and completing?
-//
-const makeChangesToTask = (id, columnToChange, valueToSet) => {
-  return db.one(`
-    UPDATE allTasks
-    SET ${columnToChange} = ${valueToSet}
-    WHERE id = $1
-    RETURNIN *
-  `, [id, columnToChange, valueToSet])
-}
-
-
-// const completeTask = (id) => {
-//   return db.one (`
-//     UPDATE allTasks
-//     SET status = true
-//     WHERE id = $1
-//     RETURNING *
-//   `, [id])
-// };
-//
-// const updateTask = (id) => {
+// const updateTask = (id, columnToChange, valueToSet) => {
 //   return db.one(`
 //     UPDATE allTasks
-//     SET description = $1
-//     WHERE id = $2
+//     SET ${columnToChange} = ${valueToSet}
+//     WHERE id = $1
 //     RETURNING *
-//   `, [id])
-// };
+//   `, [id, columnToChange, valueToSet])
+// }
+
+
+const completeTask = (id) => {
+  return db.one (`
+    UPDATE allTasks
+    SET status = true
+    WHERE id = $1
+    RETURNING *
+  `, [id])
+};
+
+const editTask = (id, newText) => {
+  return db.one(`
+    UPDATE allTasks
+    SET description = $2
+    WHERE id = $1
+    RETURNING *
+  `, [id, newText])
+};
 
 
 const deleteTask = (id) => {
@@ -67,12 +71,13 @@ const deleteTask = (id) => {
 };
 
 module.exports = {
+  getAllTasks,
   getCurrentTasks,
   getCompletedTasks,
   getOneTask,
   addTask,
-  makeChangesToTask,
-  // completeTask,
+  editTask,
+  completeTask,
   // updateTask,
   deleteTask
 };

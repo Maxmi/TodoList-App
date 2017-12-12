@@ -1,5 +1,5 @@
 body {
-  width: 50%;
+  width: 40%;
   margin: 0 auto;
 }
 
@@ -13,16 +13,13 @@ h1 {
 }
 
 input.completeTask {
-  height: 40px;
-  width: 40px;
+  height: 30px;
+  width: 30px;
   cursor: pointer;
 }
 
-/*input[type=checkbox]:after {
-  content: '';
-  background-color: #9FFF9D;
-  display: inline-block;
-  visibility: visible;
+/*.checked {
+  display: none;
 }*/
 
 span.desciption {

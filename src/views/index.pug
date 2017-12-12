@@ -5,16 +5,15 @@ block content
     div#addTask
       form#addForm(method='POST' action='/alltasks')
         div.form-group.d-flex.justify-content-around
-          label(for='description')
-          input#desc.form-control(type='text' name='description')
+          label(for='newTask')
+          input#newTask.form-control(type='text' name='newTask')
           button#addTaskBtn.btn.btn-info(type='submit') +
     div.currentTasks 
       ul#listOfTasks.list-group
-        //- each task in data 
-        //-   li= task.desciption
+        
             
     div.filters(role='group').d-flex.justify-content-center
-      a.show-all.btn.btn-outline-info(href='#/' role='button') All
-      a.show-active.btn.btn-outline-info(href='#/active' role='button') Active
-      a.show-completed.btn.btn-outline-info(href='#/completed' role='button') Completed  
+      //- a.show-all.btn.btn-outline-info(href='/' role='button') All
+      //- a.show-active.btn.btn-outline-info(href='/active' role='button') Active
+      //- a.show-completed.btn.btn-outline-info(href='/completed' role='button') Completed  
     
