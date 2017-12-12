@@ -15,10 +15,39 @@ router.get('/alltasks', (req, res) => {
       res.status(200)
         .json({
           data
-        })
+        });
     })
     .catch(err => console.log(err));
 });
+
+
+
+//route to get completed tasks
+router.get('/alltasks/completed', (req, res) => {
+  queries.getCompletedTasks()
+    .then(completedTasks => {
+      res.render('completed', {
+        title: 'Completed Tasks',
+        data: completedTasks
+      });
+    })
+    .catch(err => console.log(err));
+});
+
+
+
+//route to get all tasks
+router.get('/alltasks/all', (req, res) => {
+  queries.getAllTasks()
+    .then(allTasks => {
+      res.render('all', {
+        title: 'All Tasks',
+        data: allTasks
+      })
+    })
+    .catch(err => console.log(err));
+});
+
 
 
 //route to add new task
@@ -29,7 +58,7 @@ router.post('/alltasks', (req, res) => {
   return queries.addTask(newTask, status)
     .then((task) => {
       res.status(200)
-        .json(task)
+        .json(task);
     })
     .catch(err => console.log(err));
 });
@@ -40,8 +69,8 @@ router.get('/alltasks/:taskID', (req, res) => {
   const id = parseInt(req.params.taskID);
   queries.getOneTask(id)
     .then(task => {
-      res.json(task)
-    })
+      res.json(task);
+    });
 })
 
 
@@ -62,8 +91,6 @@ router.put('/alltasks/completed/:taskID', (req, res) => {
 router.put('/alltasks/:taskID', (req, res) => {
   const taskID = parseInt(req.params.taskID);
   const newText = req.body.text;
-  // console.log(':: ==>', req.body);
-  // console.log(newText);
 
   return queries.editTask(taskID, newText)
     .then(editedTask => {
@@ -72,9 +99,6 @@ router.put('/alltasks/:taskID', (req, res) => {
     })
     .catch(err => console.log(err));
 });
-
-
-
 
 
 

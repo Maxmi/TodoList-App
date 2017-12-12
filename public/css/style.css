@@ -3,33 +3,39 @@ body {
   margin: 0 auto;
 }
 
+.container {
+  width: 70%;
+}
+
 input.form-control {
   display: inline;
   width: 90%;
+}
+
+.home {
+  /*width: 70%;*/
+  margin: 0 auto;
+  text-align: center;
 }
 
 h1 {
   text-align: center;
 }
 
-input.completeTask {
-  height: 30px;
-  width: 30px;
-  cursor: pointer;
-}
-
 .checked {
   display: none !important;
+  text-decoration: line-through;
 }
 
 span.desciption {
-  /*border: 1px solid blue;*/
-  /*text-align: left;*/
   display: inline;
 }
 
+.completeTask, .deleteTask, .markNotDone {
+  color: white;
+}
+
 div.filters {
-  /*border: 1px solid yellow;*/
   margin: 0 auto;
   width: 100%;
   padding: 2%;

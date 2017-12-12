@@ -1,0 +1,12 @@
+extends layout
+block content
+  h1 #{title}
+  div.container
+    div.home
+      a.btn.btn-outline-info(href='/' role='button') Home Page
+    div.container
+      ul
+        each task in data 
+          li.list-group-item.d-flex.align-items-center.justify-content-between= task.description 
+            button= task.status
+              

@@ -4,31 +4,33 @@ $(document).ready(() => {
 
   //wrapper for new task
   const createNewTaskElement = newTask => {
-    return $('<li></li>').addClass('list-group-item d-flex justify-content-between').html(`
-
-        <input type='checkbox' class='completeTask'>
+    return $('<li></li>').addClass('list-group-item d-flex align-items-center').html(`
+      <div class='p2'>
+        <button type='submit' class='completeTask btn btn-outline-success'>V</button>
         <span contenteditable='true' name='text' class='text'>${newTask.description}</span>
-        <button class="deleteTask btn btn-outline-danger" type='submit'>X</button>
-
+      </div>
+      <div class='ml-auto p-2'>
+        <button class='deleteTask btn btn-outline-danger' type='submit'>X</button>
+      </div>
     `).data('id', newTask.id)
-  }
+  };
 
   //making get request to api
-  const getAllTasks = () => {
+  const getCurrentTasks = () => {
     return fetch('/alltasks');
-  }
+  };
 
   //rendering retrieved info on the page
-  const renderTasks = (tasks) => {
-    getAllTasks()
+  const renderTasks = (currentTasks) => {
+    getCurrentTasks()
       .then(res => {
         return res.json();
       })
       .then(res => {
         const content = res.data.map(task => createNewTaskElement(task));
         $ul.html(content);
-      })
-  }
+      });
+  };
 
   renderTasks();
 
@@ -79,27 +81,24 @@ $(document).ready(() => {
 
 
 
-
-  // should be only one PUT request for both complete and update actions?
-  //
   const completeTask = (taskID) => {
     return $.ajax ({
       method: 'PUT',
       url: `/alltasks/completed/${taskID}`,
-    })
-  }
+    });
+  };
 
-  //handler for checkbox (completing a task)
-  $('#listOfTasks').on('change', '.completeTask', (event) => {
-    const checkbox = $(event.target);
-    const li = checkbox.parent();
+  //handler for green btn (completing a task)
+  $('#listOfTasks').on('click', '.completeTask', (event) => {
+    const button = $(event.target);
+    const li = button.parent().parent();
     const id = li.data('id');
     completeTask(id)
       .then(() => {
-        li.addClass('checked').hide('slow')
-        // li.remove()
-      })
-  })
+        li.addClass('checked');
+        // li.hide('slow');
+      });
+  });
 
 
   const editTask = (taskID, text) => {
@@ -107,27 +106,20 @@ $(document).ready(() => {
       method: 'PUT',
       url: `/alltasks/${taskID}`,
       data: {text},
-      // dataType: 'json'
-    })
-  }
+    });
+  };
 
   //handler for clicking on text (editing a task)
-  $('#listOfTasks').on('keypress', '.text', (event) => {
+  $('#listOfTasks').on('blur', '.text', (event) => {
     const span = $(event.target);
-    const li = span.parent();
+    const li = span.parent().parent();
     const id = li.data('id');
-    if(event.which === 13) {
-      let newText = span.text();
-      console.log(newText);
-      editTask(id, newText)
-        .then(() => {
-          console.log(`Task with id ${id} edited`);
-        })
-    }
-    // console.log('Keypress');
-  })
-
-
+    let newText = span.text();
+    editTask(id, newText)
+      .then(() => {
+        console.log(`Task with id ${id} edited`);
+      });
+  });
 
   //making DELETE request to api
   // const deleteTask = id => {
@@ -141,20 +133,28 @@ $(document).ready(() => {
     return $.ajax({
       method: 'DELETE',
       url: `/alltasks/${taskID}`
-    })
-  }
+    });
+  };
 
 
-  //handler for X - delete task button
+  //handler for red btn - delete task button
   $('#listOfTasks').on('click', '.deleteTask', (event) => {
     const button = $(event.target);
-    const li = button.parent();
+    const li = button.parent().parent();
     const id = li.data('id');
     deleteTask(id)
       .then(() => {
         li.remove();
-      })
+      });
   });
+
+
+  //filters
+  // $('.filters').on('click', '.show-all', (event) => {
+  //   const allBtn = $(event.target);
+  //   const listItems = $ul.children();
+  //   listItems.removeClass('checked')
+  // })
 
 
 }); //end of document ready

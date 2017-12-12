@@ -33,16 +33,6 @@ const addTask = (description, status) => {
 };
 
 
-// const updateTask = (id, columnToChange, valueToSet) => {
-//   return db.one(`
-//     UPDATE allTasks
-//     SET ${columnToChange} = ${valueToSet}
-//     WHERE id = $1
-//     RETURNING *
-//   `, [id, columnToChange, valueToSet])
-// }
-
-
 const completeTask = (id) => {
   return db.one (`
     UPDATE allTasks
@@ -78,6 +68,5 @@ module.exports = {
   addTask,
   editTask,
   completeTask,
-  // updateTask,
   deleteTask
 };
