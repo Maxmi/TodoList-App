@@ -8,12 +8,20 @@ block content
           label(for='newTask')
           input#newTask.form-control(type='text' name='newTask')
           button#addTaskBtn.btn.btn-info(type='submit') +
+    
     div.tasks
+      
+      button#toggle-all.btn.btn-outline-info.btn-sm(type='checkbox') V
+      span  Mark all as done
+      
       ul#listOfTasks.list-group
         
             
     div.filters(role='group').d-flex.justify-content-center
       a.show-all.btn.btn-outline-info.active(href='#' role='button') All
       a.show-current.btn.btn-outline-info(href='#' role='button') Current
-      a.show-completed.btn.btn-outline-info(href='#' role='button') Completed  
+      a.show-completed.btn.btn-outline-info(href='#' role='button') Completed 
+      a.clear-completed.btn.btn-outline-info(href='#' role='button') Clear all completed
+      
+       
     

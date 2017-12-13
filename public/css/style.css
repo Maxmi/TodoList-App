@@ -4,7 +4,7 @@ body {
 }
 
 .container {
-  width: 70%;
+  width: 80%;
 }
 
 input.form-control {
@@ -47,7 +47,7 @@ span.desciption {
   display: inline;
 }
 
-.completeTask, .deleteTask, .undoComplete {
+.completeTask, .deleteTask, .undoComplete, #toggle-all {
   color: white;
 }
 
@@ -67,4 +67,5 @@ div.filters {
 
 div.filters > a  {
   margin: 0 10px;
+  font-size: 12px;
 }

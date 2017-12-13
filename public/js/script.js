@@ -49,10 +49,10 @@ $(document).ready(() => {
 
     return $('<li></li>').addClass(`list-group-item ${isComplete ? 'checked' : 'current'} align-items-center`).html(`
       <div class='delete-btn'>
-        <button class='deleteTask btn btn-danger' type='submit'>X</button>
+        <button class='deleteTask btn btn-danger btn-sm' type='submit'>X</button>
       </div>
       <div class='text-btn'>
-        <button type='submit' class='btn btn-outline-success ${isComplete ? 'active undoTask' : 'completeTask'}'>V</button>
+        <button type='submit' class='btn btn-outline-success btn-sm ${isComplete ? 'active undoTask' : 'completeTask'}'>V</button>
         <span contenteditable='true' name='text' class='text'>${newTask.description}</span>
       </div>
 
