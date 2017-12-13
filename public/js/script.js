@@ -118,7 +118,7 @@ $(document).ready(() => {
   //handler for red btn - delete task button
   $('#listOfTasks').on('click', '.deleteTask', (event) => {
     const button = $(event.target);
-    const li = button.parent().parent();
+    const li = button.parents('.list-group-item');
     const id = li.data('id');
     deleteTask(id)
       .then(() => {
@@ -142,16 +142,28 @@ $(document).ready(() => {
 
   //mark all as completed
   $('#toggle-all').on('click', (event) => {
-    const currentListItems = $ul.children('.current');
+    const currentListItems = $ul.children('.current')
     currentListItems.each(function() {
-      if($(this).hasClass('current')) {
+      if ($(this).hasClass('current')) {
         const id = $(this).data('id');
         completeTask(id)
           .then(() => {
             $(this).toggleClass('checked current');
             const button = $(this).find('.completeTask');
             button.addClass('active').toggleClass('completeTask undoTask');
+            $('#toggle-all').addClass('active');
           });
+        //undo all
+      } else if ($(this).hasClass('checked')) {
+        console.log('came to this part');
+      //   const id = $(this).data('id');
+      //   undoComplete(id)
+      //     .then(() => {
+      //       const button = $(this).find('.undoTask');
+      //       button.removeClass('active').toggleClass('completeTask undoTask');
+      //       $(this).toggleClass('checked current');
+      //       $('#toggle-all').removeClass('active');
+      //     });
       }
     })
   });
@@ -199,5 +211,19 @@ $(document).ready(() => {
       setHidden(classToHide);
     }
   })
+
+  //delete all completed tasks
+  $('.filters').on('click', '.clear-completed', (event) => {
+    event.preventDefault();
+    console.log('clear all button clicked');
+    const itemsToClear = $ul.children('.checked');
+    itemsToClear.each(function() {
+      const id = $(this).data('id');
+      deleteTask(id)
+        .then(() => {
+          $(this).remove();
+        })
+    })
+  });
 
 }); //end of document ready
