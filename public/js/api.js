@@ -37,3 +37,13 @@ const undoComplete = (taskID) => {
     url: `/alltasks/undo/${taskID}`,
   });
 };
+
+
+module.exports = {
+  getAllTasks,
+  addTask,
+  editTask,
+  completeTask,
+  deleteTask,
+  undoComplete
+};

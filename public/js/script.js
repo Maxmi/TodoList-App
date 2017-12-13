@@ -1,5 +1,45 @@
 $(document).ready(() => {
 
+  const getAllTasks = () => {
+    return fetch('/alltasks');
+  };
+
+  const addTask = (newTask) => {
+    return $.post('/alltasks', {newTask})
+      .catch(err => console.log(err));
+  };
+
+  const completeTask = (taskID) => {
+    return $.ajax ({
+      method: 'PUT',
+      url: `/alltasks/completed/${taskID}`,
+    });
+  };
+
+  const editTask = (taskID, text) => {
+    return $.ajax ({
+      method: 'PUT',
+      url: `/alltasks/${taskID}`,
+      data: {text},
+    });
+  };
+
+  const deleteTask = taskID => {
+    return $.ajax({
+      method: 'DELETE',
+      url: `/alltasks/${taskID}`
+    });
+  };
+
+
+  const undoComplete = taskID => {
+    return $.ajax ({
+      method: 'PUT',
+      url: `/alltasks/undo/${taskID}`,
+    });
+  };
+
+
   //where new tasks will be appended
   const $ul = $('#listOfTasks');
 
@@ -52,12 +92,11 @@ $(document).ready(() => {
   $('#listOfTasks').on('click', '.completeTask', (event) => {
     const button = $(event.target);
     const li = button.parents('.list-group-item');
-    console.log('this is li', li);
+    // console.log('this is li', li);
     const id = li.data('id');
 
     completeTask(id)
       .then(() => {
-        console.log('came here ');
         li.toggleClass('checked current');
         button.addClass('active').toggleClass('completeTask undoTask');
       });
@@ -90,15 +129,15 @@ $(document).ready(() => {
 
 
  //undo completion
-  $('#listOfCompletedTasks').on('click', '.undoTask', (event) => {
+  $('#listOfTasks').on('click', '.undoTask', (event) => {
     const button = $(event.target);
     const li = button.parents('.list-group-item');
     const id = li.data('id');
-    // console.log('id: ', id);
+    // console.log('clicked to undo: ', id);
     undoComplete(id)
       .then(() => {
+        button.removeClass('active').toggleClass('completeTask undoTask');
         li.toggleClass('checked current');
-        button.removeClass('active').toggleClass('completeTask undoTask');;
       })
   })
 
@@ -122,6 +161,7 @@ $(document).ready(() => {
     })
   }
 
+
   $('.filters').on('click', '.show-all', (event) => {
     event.preventDefault();
     const allBtn = $(event.target);
@@ -133,14 +173,14 @@ $(document).ready(() => {
   })
 
 
-  $('.filters').on('click', '.show-completed, .show-active', (event) => {
+  $('.filters').on('click', '.show-completed, .show-current', (event) => {
     event.preventDefault();
     const btn = $(event.target);
     if(!btn.hasClass('active')) {
       resetFilters();
       btn.addClass('active');
       resetLists();
-      const classToHide = btn.hasClass('show-active')? 'checked' : 'current';
+      const classToHide = btn.hasClass('show-current')? 'checked' : 'current';
       setHidden(classToHide);
     }
   })

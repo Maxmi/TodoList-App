@@ -8,12 +8,12 @@ block content
           label(for='newTask')
           input#newTask.form-control(type='text' name='newTask')
           button#addTaskBtn.btn.btn-info(type='submit') +
-    div.currentTasks 
+    div.tasks
       ul#listOfTasks.list-group
         
             
     div.filters(role='group').d-flex.justify-content-center
       a.show-all.btn.btn-outline-info.active(href='#' role='button') All
-      a.show-active.btn.btn-outline-info(href='#' role='button') Active
+      a.show-current.btn.btn-outline-info(href='#' role='button') Current
       a.show-completed.btn.btn-outline-info(href='#' role='button') Completed  
     
