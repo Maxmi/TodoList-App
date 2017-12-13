@@ -3,7 +3,6 @@ $(document).ready(() => {
   //where new tasks will be appended
   const $ul = $('#listOfTasks');
 
-
   //wrapper for new task
   const createNewTaskElement = newTask => {
     const isComplete = newTask.status;
@@ -20,13 +19,8 @@ $(document).ready(() => {
     `).data('id', newTask.id)
   };
 
-  //making get request to api
-  const getAllTasks = () => {
-    return fetch('/alltasks');
-  };
-
   //rendering retrieved info on the page
-  const renderTasks = (currentTasks) => {
+  const renderTasks = (tasks) => {
     getAllTasks()
       .then(res => {
         return res.json();
@@ -40,12 +34,6 @@ $(document).ready(() => {
   renderTasks();
 
 
-  //jQuery ajax post
-  const addTask = (newTask) => {
-    return $.post('/alltasks', {newTask})
-      .catch(err => console.log(err));
-  };
-
   //handler for addTask button
   $('#addForm').submit((event) => {
     event.preventDefault();
@@ -58,15 +46,6 @@ $(document).ready(() => {
         $('input[name="newTask"]').val('');
       });
   });
-
-
-
-  const completeTask = (taskID) => {
-    return $.ajax ({
-      method: 'PUT',
-      url: `/alltasks/completed/${taskID}`,
-    });
-  };
 
 
   //handler for green btn (completing a task)
@@ -85,15 +64,6 @@ $(document).ready(() => {
   });
 
 
-  const editTask = (taskID, text) => {
-    return $.ajax ({
-      method: 'PUT',
-      url: `/alltasks/${taskID}`,
-      data: {text},
-    });
-  };
-
-
   //handler for clicking on text (editing a task)
   $('#listOfTasks').on('blur', '.text', (event) => {
     const span = $(event.target);
@@ -105,14 +75,6 @@ $(document).ready(() => {
         console.log(`Task with id ${id} edited`);
       });
   });
-
-
-  const deleteTask = taskID => {
-    return $.ajax({
-      method: 'DELETE',
-      url: `/alltasks/${taskID}`
-    });
-  };
 
 
   //handler for red btn - delete task button
@@ -127,19 +89,12 @@ $(document).ready(() => {
   });
 
 
-  const undoComplete = (taskID) => {
-    return $.ajax ({
-      method: 'PUT',
-      url: `/alltasks/undo/${taskID}`,
-    });
-  };
-
-
+ //undo completion
   $('#listOfCompletedTasks').on('click', '.undoTask', (event) => {
     const button = $(event.target);
     const li = button.parents('.list-group-item');
     const id = li.data('id');
-    console.log('id: ', id);
+    // console.log('id: ', id);
     undoComplete(id)
       .then(() => {
         li.toggleClass('checked current');
@@ -147,8 +102,8 @@ $(document).ready(() => {
       })
   })
 
-  //filters
 
+  //filters
   function resetFilters() {
     $('.filters').children().removeClass('active');
   }
@@ -166,7 +121,6 @@ $(document).ready(() => {
       }
     })
   }
-
 
   $('.filters').on('click', '.show-all', (event) => {
     event.preventDefault();
