@@ -10,7 +10,12 @@
     "db:seed": "psql todolistapp < src/models/seed.sql",
     "db:reset": "dropdb todolistapp && npm run db:create && npm run db:schema && npm run db:seed",
     "db:drop": "dropdb todolistapp",
-    "test": "npm test"
+    "test": "export NODE_ENV=test && npm run test:db:reset && mocha --recursive --exit",
+    "test:db:create": "createdb todolistapp_test",
+    "test:db:drop": "dropdb todolistapp_test",
+    "test:db:schema": "psql todolistapp_test < src/models/schema.sql",
+    "test:db:seed": "psql todolistapp_test < src/models/seed.sql",
+    "test:db:reset": "npm run test:db:drop && npm run test:db:create && npm run test:db:schema && npm run test:db:seed"
   },
   "author": "",
   "license": "ISC",
@@ -23,10 +28,13 @@
   },
   "devDependencies": {
     "ajv": "^5.5.1",
+    "chai": "^4.1.2",
+    "chai-http": "^3.0.0",
     "eslint": "^4.12.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.8.0",
     "eslint-plugin-jsx-a11y": "^6.0.2",
-    "eslint-plugin-react": "^7.5.1"
+    "eslint-plugin-react": "^7.5.1",
+    "mocha": "^4.0.1"
   }
 }
