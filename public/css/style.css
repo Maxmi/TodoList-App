@@ -22,17 +22,41 @@ h1 {
   text-align: center;
 }
 
-.checked {
-  display: none !important;
+.list-group-item {
+  overflow: hidden;
+}
+
+.list-group-item.checked {
+  /*display: none;*/
   text-decoration: line-through;
+}
+
+.list-group-item.hidden {
+  display: none;
+}
+
+.text-btn {
+  float: left;
+}
+
+.delete-btn {
+  float: right;
 }
 
 span.desciption {
   display: inline;
 }
 
-.completeTask, .deleteTask, .markNotDone {
+.completeTask, .deleteTask, .undoComplete {
   color: white;
+}
+
+.deleteTask {
+  display: none;
+}
+
+.list-group-item:hover .deleteTask {
+  display: block;
 }
 
 div.filters {

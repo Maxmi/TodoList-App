@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
 
 //route to get current tasks
 router.get('/alltasks', (req, res) => {
-  queries.getCurrentTasks()
+  queries.getAllTasks()
     .then(data => {
       res.status(200)
         .json({
@@ -87,7 +87,7 @@ router.put('/alltasks/completed/:taskID', (req, res) => {
 });
 
 
-
+//route to edit text of task
 router.put('/alltasks/:taskID', (req, res) => {
   const taskID = parseInt(req.params.taskID);
   const newText = req.body.text;
@@ -112,5 +112,17 @@ router.delete('/alltasks/:taskID', (req, res) => {
     })
 });
 
+
+//route to undo complete of a task
+router.put('/alltasks/undo/:taskID', (req, res) => {
+  const taskID = parseInt(req.params.taskID);
+
+  return queries.undoComplete(taskID)
+    .then(task => {
+      res.render('index');
+      console.log(`Task with id ${taskID} has been changed to current`);
+    })
+    .catch(err => console.log(err));
+});
 
 module.exports = router;

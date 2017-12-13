@@ -60,6 +60,15 @@ const deleteTask = (id) => {
   `, [id])
 };
 
+const undoComplete = (id) => {
+  return db.one (`
+    UPDATE allTasks
+    SET status = false
+    WHERE id = $1
+    RETURNING *
+  `, [id])
+};
+
 module.exports = {
   getAllTasks,
   getCurrentTasks,
@@ -68,5 +77,6 @@ module.exports = {
   addTask,
   editTask,
   completeTask,
-  deleteTask
+  deleteTask,
+  undoComplete
 };
