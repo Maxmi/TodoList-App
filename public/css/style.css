@@ -13,7 +13,6 @@ input.form-control {
 }
 
 .home {
-  /*width: 70%;*/
   margin: 0 auto;
   text-align: center;
 }
@@ -24,11 +23,6 @@ h1 {
 
 .list-group-item {
   overflow: hidden;
-}
-
-.list-group-item.checked {
-  /*display: none;*/
-  text-decoration: line-through;
 }
 
 .list-group-item.hidden {

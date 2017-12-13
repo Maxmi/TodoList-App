@@ -6,23 +6,13 @@ const getAllTasks = () => {
   `)
 };
 
-const getCurrentTasks = () => {
-  return db.any(`
-    SELECT * FROM allTasks WHERE status = false ORDER BY id DESC;
-  `)
-};
-
-const getCompletedTasks = () => {
-  return db.any(`
-    SELECT * FROM allTasks WHERE status = true ORDER BY id DESC;
-  `)
-};
 
 const getOneTask = (id) => {
   return db.one(`
     SELECT * FROM allTasks WHERE id = $1
   `, [id])
 };
+
 
 const addTask = (description, status) => {
   return db.one(`
@@ -42,6 +32,7 @@ const completeTask = (id) => {
   `, [id])
 };
 
+
 const editTask = (id, newText) => {
   return db.one(`
     UPDATE allTasks
@@ -60,6 +51,7 @@ const deleteTask = (id) => {
   `, [id])
 };
 
+
 const undoComplete = (id) => {
   return db.one (`
     UPDATE allTasks
@@ -71,8 +63,6 @@ const undoComplete = (id) => {
 
 module.exports = {
   getAllTasks,
-  getCurrentTasks,
-  getCompletedTasks,
   getOneTask,
   addTask,
   editTask,

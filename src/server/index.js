@@ -8,7 +8,7 @@ router.get('/', (req, res) => {
 });
 
 
-//route to get current tasks
+//route to get all tasks
 router.get('/alltasks', (req, res) => {
   queries.getAllTasks()
     .then(data => {
@@ -19,35 +19,6 @@ router.get('/alltasks', (req, res) => {
     })
     .catch(err => console.log(err));
 });
-
-
-
-//route to get completed tasks
-router.get('/alltasks/completed', (req, res) => {
-  queries.getCompletedTasks()
-    .then(completedTasks => {
-      res.render('completed', {
-        title: 'Completed Tasks',
-        data: completedTasks
-      });
-    })
-    .catch(err => console.log(err));
-});
-
-
-
-//route to get all tasks
-router.get('/alltasks/all', (req, res) => {
-  queries.getAllTasks()
-    .then(allTasks => {
-      res.render('all', {
-        title: 'All Tasks',
-        data: allTasks
-      })
-    })
-    .catch(err => console.log(err));
-});
-
 
 
 //route to add new task

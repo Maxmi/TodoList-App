@@ -140,11 +140,12 @@ $(document).ready(() => {
   });
 
 
-  //mark all as completed
+  //toggle all tasks (complete all or undo all)
   $('.tasks').on('click', '#toggle-all', (event) => {
     event.preventDefault();
     const itemsToToggle = $ul.children()
     itemsToToggle.each(function() {
+      //mark all as completed
       if ($(this).hasClass('current')) {
         const id = $(this).data('id');
         completeTask(id)
@@ -156,7 +157,6 @@ $(document).ready(() => {
           });
         //undo all
       } else if ($(this).hasClass('checked')) {
-        console.log('came to this part');
         const id = $(this).data('id');
         undoComplete(id)
           .then(() => {
@@ -166,7 +166,7 @@ $(document).ready(() => {
             $('#toggle-all').removeClass('active');
           });
       }
-    })
+    });
   });
 
 
@@ -186,7 +186,7 @@ $(document).ready(() => {
       if($(this).hasClass(classNameToHide)) {
         $(this).addClass('hidden');
       }
-    })
+    });
   }
 
 
@@ -198,7 +198,7 @@ $(document).ready(() => {
       allBtn.addClass('active');
       resetLists();
     }
-  })
+  });
 
 
   $('.filters').on('click', '.show-completed, .show-current', (event) => {
@@ -211,7 +211,7 @@ $(document).ready(() => {
       const classToHide = btn.hasClass('show-current')? 'checked' : 'current';
       setHidden(classToHide);
     }
-  })
+  });
 
   //delete all completed tasks
   $('.filters').on('click', '.clear-completed', (event) => {
@@ -223,8 +223,8 @@ $(document).ready(() => {
       deleteTask(id)
         .then(() => {
           $(this).remove();
-        })
-    })
+        });
+    });
   });
 
 }); //end of document ready
