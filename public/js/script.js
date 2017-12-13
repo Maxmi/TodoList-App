@@ -141,9 +141,10 @@ $(document).ready(() => {
 
 
   //mark all as completed
-  $('#toggle-all').on('click', (event) => {
-    const currentListItems = $ul.children('.current')
-    currentListItems.each(function() {
+  $('.tasks').on('click', '#toggle-all', (event) => {
+    event.preventDefault();
+    const itemsToToggle = $ul.children()
+    itemsToToggle.each(function() {
       if ($(this).hasClass('current')) {
         const id = $(this).data('id');
         completeTask(id)
@@ -156,14 +157,14 @@ $(document).ready(() => {
         //undo all
       } else if ($(this).hasClass('checked')) {
         console.log('came to this part');
-      //   const id = $(this).data('id');
-      //   undoComplete(id)
-      //     .then(() => {
-      //       const button = $(this).find('.undoTask');
-      //       button.removeClass('active').toggleClass('completeTask undoTask');
-      //       $(this).toggleClass('checked current');
-      //       $('#toggle-all').removeClass('active');
-      //     });
+        const id = $(this).data('id');
+        undoComplete(id)
+          .then(() => {
+            const button = $(this).find('.undoTask');
+            button.removeClass('active').toggleClass('completeTask undoTask');
+            $(this).toggleClass('checked current');
+            $('#toggle-all').removeClass('active');
+          });
       }
     })
   });
@@ -215,7 +216,7 @@ $(document).ready(() => {
   //delete all completed tasks
   $('.filters').on('click', '.clear-completed', (event) => {
     event.preventDefault();
-    console.log('clear all button clicked');
+    // console.log('clear all button clicked');
     const itemsToClear = $ul.children('.checked');
     itemsToClear.each(function() {
       const id = $(this).data('id');
