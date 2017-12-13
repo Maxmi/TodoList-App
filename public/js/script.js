@@ -92,7 +92,6 @@ $(document).ready(() => {
   $('#listOfTasks').on('click', '.completeTask', (event) => {
     const button = $(event.target);
     const li = button.parents('.list-group-item');
-    // console.log('this is li', li);
     const id = li.data('id');
 
     completeTask(id)
@@ -133,13 +132,29 @@ $(document).ready(() => {
     const button = $(event.target);
     const li = button.parents('.list-group-item');
     const id = li.data('id');
-    // console.log('clicked to undo: ', id);
     undoComplete(id)
       .then(() => {
         button.removeClass('active').toggleClass('completeTask undoTask');
         li.toggleClass('checked current');
-      })
-  })
+      });
+  });
+
+
+  //mark all as completed
+  $('#toggle-all').on('click', (event) => {
+    const currentListItems = $ul.children('.current');
+    currentListItems.each(function() {
+      if($(this).hasClass('current')) {
+        const id = $(this).data('id');
+        completeTask(id)
+          .then(() => {
+            $(this).toggleClass('checked current');
+            const button = $(this).find('.completeTask');
+            button.addClass('active').toggleClass('completeTask undoTask');
+          });
+      }
+    })
+  });
 
 
   //filters

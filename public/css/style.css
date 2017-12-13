@@ -51,6 +51,10 @@ span.desciption {
   color: white;
 }
 
+#toggle-all {
+  margin-bottom: 5px;
+}
+
 .deleteTask {
   display: none;
 }
