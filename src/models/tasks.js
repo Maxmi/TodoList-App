@@ -2,7 +2,7 @@ const db = require('./db');
 
 const getAllTasks = () => {
   return db.any(`
-    SELECT * FROM allTasks;
+    SELECT * FROM allTasks ORDER BY id DESC;
   `)
 };
 

@@ -39,11 +39,11 @@ describe('database queries', () => {
   });
 
   describe('addTask', () => {
-    context('when user provided input and clicked add(+) button', () => {
+    context('when user added new task', () => {
       beforeEach(() => {
         return resetTable();
       });
-      it('should create new task in db', () => {
+      it('should save new task in db', () => {
         return addTask('new test task', 'false')
           .then(newTask => {
             expect(newTask.description).to.equal('new test task');

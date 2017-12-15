@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS currentTasks;
+DROP TABLE IF EXISTS allTasks;
 
 CREATE TABLE allTasks (
   id SERIAL PRIMARY KEY,

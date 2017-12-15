@@ -52,7 +52,7 @@ router.put('/alltasks/completed/:taskID', (req, res) => {
   return queries.completeTask(taskID)
     .then(completedTask => {
       res.render('index');
-      console.log(`Task with id ${taskID} has been completed`);
+      // console.log(`Task with id ${taskID} has been completed`);
     })
     .catch(err => console.log(err));
 });
@@ -66,7 +66,7 @@ router.put('/alltasks/:taskID', (req, res) => {
   return queries.editTask(taskID, newText)
     .then(editedTask => {
       res.render('index');
-      console.log(`Task with id ${taskID} has been edited`);
+      // console.log(`Task with id ${taskID} has been edited`);
     })
     .catch(err => console.log(err));
 });
@@ -79,7 +79,7 @@ router.delete('/alltasks/:taskID', (req, res) => {
   queries.deleteTask(taskID)
     .then(task => {
       res.render('index');
-      console.log(`Task with id ${taskID} has been deleted`);
+      // console.log(`Task with id ${taskID} has been deleted`);
     })
 });
 

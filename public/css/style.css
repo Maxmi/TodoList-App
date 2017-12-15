@@ -1,6 +1,7 @@
 body {
   width: 40%;
   margin: 0 auto;
+
 }
 
 .container {
@@ -19,6 +20,10 @@ input.form-control {
 
 h1 {
   text-align: center;
+}
+
+input#newTask {
+  font-style: italic;
 }
 
 .list-group-item {

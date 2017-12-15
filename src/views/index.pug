@@ -6,7 +6,7 @@ block content
       form#addForm(method='POST' action='/alltasks')
         div.form-group.d-flex.justify-content-around
           label(for='newTask')
-          input#newTask.form-control(type='text' name='newTask')
+          input#newTask.form-control(type='text' name='newTask' placeholder='What needs to be done?')
           button#addTaskBtn.btn.btn-info(type='submit') +
     
     div.tasks
