@@ -1,36 +1,4 @@
 $(document).ready(() => {
-
-  const completeTask = (taskID) => {
-    return $.ajax ({
-      method: 'PUT',
-      url: `/alltasks/completed/${taskID}`,
-    });
-  };
-
-  const editTask = (taskID, text) => {
-    return $.ajax ({
-      method: 'PUT',
-      url: `/alltasks/${taskID}`,
-      data: {text},
-    });
-  };
-
-  const deleteTask = taskID => {
-    return $.ajax({
-      method: 'DELETE',
-      url: `/alltasks/${taskID}`
-    });
-  };
-
-
-  const undoComplete = taskID => {
-    return $.ajax ({
-      method: 'PUT',
-      url: `/alltasks/undo/${taskID}`,
-    });
-  };
-
-
   //where new tasks will be appended
   const $ul = $('#listOfTasks');
 
@@ -93,9 +61,10 @@ $(document).ready(() => {
   //handler for clicking on text (editing a task)
   $('#listOfTasks').on('blur', '.text', (event) => {
     const span = $(event.target);
-    const li = span.parent().parent();
+    const li = span.parents('.list-group-item');
     const id = li.data('id');
     let newText = span.text();
+    console.log('newText: ', newText);
     editTask(id, newText)
       .then(() => {
         console.log(`Task with id ${id} edited`);
@@ -134,7 +103,6 @@ $(document).ready(() => {
 
     const toggleBtn = $(event.target);
     const shouldCheck = toggleBtn.hasClass('active');
-    // console.log(shouldCheck);
 
     if(!shouldCheck) {
       toggleBtn.addClass('active');
@@ -143,10 +111,8 @@ $(document).ready(() => {
     }
 
     const itemsToToggle = $ul.children();
-    //go through all list
     itemsToToggle.each(function() {
       const $li = $(this);
-      //mark all as completed
       const id = $li.data('id');
 
       if (!shouldCheck && $li.hasClass('current')) {
@@ -155,19 +121,15 @@ $(document).ready(() => {
             $li.toggleClass('checked current');
             const button = $li.find('.completeTask');
             button.addClass('active').toggleClass('completeTask undoTask');
-
           });
-        //undo all
       }
 
       if (shouldCheck && $li.hasClass('checked')) {
-        // const id = $li.data('id');
         undoComplete(id)
           .then(() => {
             const button = $li.find('.undoTask');
             button.removeClass('active').toggleClass('completeTask undoTask');
             $li.toggleClass('checked current');
-
           });
       }
     });
@@ -220,7 +182,6 @@ $(document).ready(() => {
   //delete all completed tasks
   $('.filters').on('click', '.clear-completed', (event) => {
     event.preventDefault();
-    // console.log('clear all button clicked');
     const itemsToClear = $ul.children('.checked');
     itemsToClear.each(function() {
       const id = $(this).data('id');

@@ -15,5 +15,44 @@ const addTask = (newTask) => {
   })
     .then(res => {
       return res.json();
-    })
+    });
+};
+
+
+const completeTask = (taskID) => {
+  return fetch(`/alltasks/completed/${taskID}`, {
+    method: 'put',
+    headers: {
+      'Content-Type': 'html'
+    }
+  })
+    .then(res => {
+      return res;
+    });
+};
+
+const editTask = (taskID, text) => {
+  return fetch(`/alltasks/${taskID}`, {
+    method: 'put',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({text})
+  })
+    .then(res => {
+      return res;
+    });
+};
+
+const deleteTask = taskID => {
+  return fetch(`/alltasks/${taskID}`, {
+    method: 'delete'
+  });
+};
+
+
+const undoComplete = taskID => {
+  return fetch(`/alltasks/undo/${taskID}`, {
+    method: 'put'
+  })
 }
