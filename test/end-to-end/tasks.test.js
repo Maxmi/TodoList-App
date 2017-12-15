@@ -40,9 +40,7 @@ describe.only('routes', () => {
             expect(res).to.have.status(200);
             expect(res.body).to.have.property('data');
             expect(res.body.data).to.be.a('array');
-            expect(res.body.data.length).to.be.above(0);
-            expect(res.body.data[0]).to.have.property('description');
-            expect(res.body.data[0]).to.have.property('status');
+            expect(res.body.data.length).to.equal(3);
           })
           .catch(err => {
             throw err;
@@ -67,13 +65,18 @@ describe.only('routes', () => {
           .then(res => {
             expect(res).to.be.json;
             expect(res).to.have.status(200);
-            expect(res.body).to.be.a('object');
-            expect(res.body).to.have.property('id');
-            expect(res.body).to.have.property('description');
-            expect(res.body).to.have.property('status');
-            expect(res.body.id).to.equal(4);
-            expect(res.body.description).to.equal('new test task');
-            expect(res.body.status).to.equal(false);
+            return chai.request(app)
+              .get('/alltasks/4')
+              .then(res => {
+                expect(res).to.be.json;
+                expect(res.body).to.be.a('object');
+                expect(res.body).to.have.property('id');
+                expect(res.body).to.have.property('description');
+                expect(res.body).to.have.property('status');
+                expect(res.body.id).to.equal(4);
+                expect(res.body.description).to.equal('new test task');
+                expect(res.body.status).to.equal(false);
+              });
           })
           .catch(err => {
             throw err;
@@ -94,6 +97,13 @@ describe.only('routes', () => {
           .then(res => {
             expect(res).to.have.status(200);
             expect(res).to.be.html;
+            return chai.request(app)
+              .get('/alltasks/1')
+              .then(res => {
+                expect(res).to.be.json;
+                expect(res.body).to.have.property('status');
+                expect(res.body.status).to.equal(true);
+              });
           })
           .catch(err => {
             throw err;
@@ -108,13 +118,20 @@ describe.only('routes', () => {
       beforeEach(() => {
         return resetTable();
       });
-      it('should update description property of task with id 2', () => {
+      it('should update description of task with id 2', () => {
         return chai.request(app)
           .put('/alltasks/2')
           .send({text: 'updated text'})
           .then(res => {
             expect(res).to.have.status(200);
             expect(res).to.be.html;
+            return chai.request(app)
+              .get('/alltasks/2')
+              .then(res => {
+                expect(res).to.be.json;
+                expect(res.body).to.have.property('description');
+                expect(res.body.description).to.equal('updated text');
+              });
           })
           .catch(err => {
             throw err;
@@ -124,13 +141,13 @@ describe.only('routes', () => {
   });
 
 
-  describe.only('/DELETE alltasks/:taskID', () => {
+  describe('/DELETE alltasks/:taskID', () => {
     context('when sending DELETE request to alltasks/1', () => {
       beforeEach(() => {
         return resetTable();
       });
-      it('should delete the task with id 1', (done) => {
-        chai.request(app)
+      it('should delete the task with id 1', () => {
+        return chai.request(app)
           .delete('/alltasks/1')
           .then(res => {
             expect(res).to.have.status(200);
@@ -140,8 +157,7 @@ describe.only('routes', () => {
               .then(res => {
                 expect(res).to.be.json;
                 expect(res.body.data.length).to.equal(2);
-                done()
-              })
+              });
           })
           .catch(err => {
             throw err;
