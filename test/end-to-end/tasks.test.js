@@ -124,27 +124,25 @@ describe.only('routes', () => {
   });
 
 
-  describe('/DELETE alltasks/:taskID', () => {
+  describe.only('/DELETE alltasks/:taskID', () => {
     context('when sending DELETE request to alltasks/1', () => {
       beforeEach(() => {
         return resetTable();
       });
-      it('should delete the task with id 1', () => {
-        return chai.request(app)
+      it('should delete the task with id 1', (done) => {
+        chai.request(app)
           .delete('/alltasks/1')
           .then(res => {
-            // console.log('delete first res', res);
             expect(res).to.have.status(200);
             expect(res).to.be.html;
+            return chai.request(app)
+              .get('/alltasks')
+              .then(res => {
+                expect(res).to.be.json;
+                expect(res.body.data.length).to.equal(2);
+                done()
+              })
           })
-          // .then(() => {
-          //   chai.request(app)
-          //     .get('alltasks')
-          //     .then(res => {
-          //       console.log('second res', res);
-          //       expect(res.length).to.equal(23);
-          //     })
-          // })
           .catch(err => {
             throw err;
           });

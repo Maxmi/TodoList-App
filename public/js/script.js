@@ -1,14 +1,5 @@
 $(document).ready(() => {
 
-  const getAllTasks = () => {
-    return fetch('/alltasks');
-  };
-
-  const addTask = (newTask) => {
-    return $.post('/alltasks', {newTask})
-      .catch(err => console.log(err));
-  };
-
   const completeTask = (taskID) => {
     return $.ajax ({
       method: 'PUT',
@@ -62,9 +53,6 @@ $(document).ready(() => {
   //rendering retrieved info on the page
   const renderTasks = (tasks) => {
     getAllTasks()
-      .then(res => {
-        return res.json();
-      })
       .then(res => {
         const content = res.data.map(task => createNewTaskElement(task));
         $ul.html(content);
@@ -141,29 +129,45 @@ $(document).ready(() => {
 
 
   //toggle all tasks (complete all or undo all)
-  $('.tasks').on('click', '#toggle-all', (event) => {
+  $('#toggle-all').on('click', (event) => {
     event.preventDefault();
-    const itemsToToggle = $ul.children()
+
+    const toggleBtn = $(event.target);
+    const shouldCheck = toggleBtn.hasClass('active');
+    // console.log(shouldCheck);
+
+    if(!shouldCheck) {
+      toggleBtn.addClass('active');
+    } else {
+      toggleBtn.removeClass('active');
+    }
+
+    const itemsToToggle = $ul.children();
+    //go through all list
     itemsToToggle.each(function() {
+      const $li = $(this);
       //mark all as completed
-      if ($(this).hasClass('current')) {
-        const id = $(this).data('id');
+      const id = $li.data('id');
+
+      if (!shouldCheck && $li.hasClass('current')) {
         completeTask(id)
           .then(() => {
-            $(this).toggleClass('checked current');
-            const button = $(this).find('.completeTask');
+            $li.toggleClass('checked current');
+            const button = $li.find('.completeTask');
             button.addClass('active').toggleClass('completeTask undoTask');
-            $('#toggle-all').addClass('active');
+
           });
         //undo all
-      } else if ($(this).hasClass('checked')) {
-        const id = $(this).data('id');
+      }
+
+      if (shouldCheck && $li.hasClass('checked')) {
+        // const id = $li.data('id');
         undoComplete(id)
           .then(() => {
-            const button = $(this).find('.undoTask');
+            const button = $li.find('.undoTask');
             button.removeClass('active').toggleClass('completeTask undoTask');
-            $(this).toggleClass('checked current');
-            $('#toggle-all').removeClass('active');
+            $li.toggleClass('checked current');
+
           });
       }
     });
