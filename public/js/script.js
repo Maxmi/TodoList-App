@@ -2,7 +2,7 @@ $(document).ready(() => {
   //where new tasks will be appended
   const $ul = $('#listOfTasks');
 
-  //wrapper for new task
+  //wrapper for each task
   const createNewTaskElement = newTask => {
     const isComplete = newTask.status;
 
@@ -52,10 +52,15 @@ $(document).ready(() => {
 
     completeTask(id)
       .then(() => {
-        li.toggleClass('checked current');
-        button.addClass('active').toggleClass('completeTask undoTask');
+        toDoAfterComplete(li, button);
       });
   });
+
+
+  function toDoAfterComplete(li, btn) {
+    li.toggleClass('checked current');
+    btn.addClass('active').toggleClass('completeTask undoTask');
+  }
 
 
   //handler for clicking on text (editing a task)
@@ -64,7 +69,6 @@ $(document).ready(() => {
     const li = span.parents('.list-group-item');
     const id = li.data('id');
     let newText = span.text();
-    console.log('newText: ', newText);
     editTask(id, newText)
       .then(() => {
         console.log(`Task with id ${id} edited`);
@@ -91,10 +95,14 @@ $(document).ready(() => {
     const id = li.data('id');
     undoComplete(id)
       .then(() => {
-        button.removeClass('active').toggleClass('completeTask undoTask');
-        li.toggleClass('checked current');
+        toDoAfterUndo(button, li);
       });
   });
+
+  function toDoAfterUndo(btn, li) {
+    btn.removeClass('active').toggleClass('completeTask undoTask');
+    li.toggleClass('checked current');
+  }
 
 
   //toggle all tasks (complete all or undo all)
@@ -114,22 +122,20 @@ $(document).ready(() => {
     itemsToToggle.each(function() {
       const $li = $(this);
       const id = $li.data('id');
+      const btnToComplete = $li.find('.completeTask');
+      const btnToUndo = $li.find('.undoTask');
 
       if (!shouldCheck && $li.hasClass('current')) {
         completeTask(id)
           .then(() => {
-            $li.toggleClass('checked current');
-            const button = $li.find('.completeTask');
-            button.addClass('active').toggleClass('completeTask undoTask');
+            toDoAfterComplete($li, btnToComplete);
           });
       }
 
       if (shouldCheck && $li.hasClass('checked')) {
         undoComplete(id)
           .then(() => {
-            const button = $li.find('.undoTask');
-            button.removeClass('active').toggleClass('completeTask undoTask');
-            $li.toggleClass('checked current');
+            toDoAfterUndo(btnToUndo, $li);
           });
       }
     });
@@ -154,7 +160,6 @@ $(document).ready(() => {
       }
     });
   }
-
 
   $('.filters').on('click', '.show-all', (event) => {
     event.preventDefault();
