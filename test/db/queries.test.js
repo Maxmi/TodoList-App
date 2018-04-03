@@ -39,7 +39,7 @@ describe('database queries', () => {
   });
 
   describe('addTask', () => {
-    context('when user added new task', () => {
+    context('when user adds new task', () => {
       beforeEach(() => {
         return resetTable();
       });
@@ -48,14 +48,13 @@ describe('database queries', () => {
           .then(newTask => {
             expect(newTask.description).to.equal('new test task');
             expect(newTask.status).to.equal(false);
-            // expect(newTask.status).to.not.be.null;
           });
       });
     });
   });
 
   describe('completeTask', () => {
-    context('when user clicked on green button next to item', () => {
+    context('when user clicks on green button (V) next to item', () => {
       beforeEach(() => {
         return resetTable();
       });
@@ -70,7 +69,7 @@ describe('database queries', () => {
 
 
   describe('editTask', () => {
-    context('when user changed text of task', () => {
+    context('when user changes text of task', () => {
       beforeEach(() => {
         return resetTable();
       });

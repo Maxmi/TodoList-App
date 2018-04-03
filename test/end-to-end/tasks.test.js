@@ -6,7 +6,7 @@ chai.use(chaiHttp);
 const {truncateTable, resetTable} = require('../db/helpers');
 const app = require('../../src/app');
 
-describe.only('routes', () => {
+describe('routes', () => {
 
   describe('/GET allTasks', () => {
     context('when sending GET request to alltasks and db is empty', () => {
@@ -22,9 +22,6 @@ describe.only('routes', () => {
             expect(res.body).to.have.property('data');
             expect(res.body.data).to.be.a('array');
             expect(res.body.data.length).to.equal(0);
-          })
-          .catch(err => {
-            throw err;
           });
       });
     });
@@ -41,9 +38,6 @@ describe.only('routes', () => {
             expect(res.body).to.have.property('data');
             expect(res.body.data).to.be.a('array');
             expect(res.body.data.length).to.equal(3);
-          })
-          .catch(err => {
-            throw err;
           });
       });
     });
@@ -77,9 +71,6 @@ describe.only('routes', () => {
                 expect(res.body.description).to.equal('new test task');
                 expect(res.body.status).to.equal(false);
               });
-          })
-          .catch(err => {
-            throw err;
           });
       });
     });
@@ -96,7 +87,7 @@ describe.only('routes', () => {
           .put('/alltasks/completed/1')
           .then(res => {
             expect(res).to.have.status(200);
-            expect(res).to.be.html;
+            expect(res).to.be.json;
             return chai.request(app)
               .get('/alltasks/1')
               .then(res => {
@@ -104,9 +95,6 @@ describe.only('routes', () => {
                 expect(res.body).to.have.property('status');
                 expect(res.body.status).to.equal(true);
               });
-          })
-          .catch(err => {
-            throw err;
           });
       });
     });
@@ -124,7 +112,7 @@ describe.only('routes', () => {
           .send({text: 'updated text'})
           .then(res => {
             expect(res).to.have.status(200);
-            expect(res).to.be.html;
+            expect(res).to.be.json;
             return chai.request(app)
               .get('/alltasks/2')
               .then(res => {
@@ -132,9 +120,6 @@ describe.only('routes', () => {
                 expect(res.body).to.have.property('description');
                 expect(res.body.description).to.equal('updated text');
               });
-          })
-          .catch(err => {
-            throw err;
           });
       });
     });
@@ -151,21 +136,16 @@ describe.only('routes', () => {
           .delete('/alltasks/1')
           .then(res => {
             expect(res).to.have.status(200);
-            expect(res).to.be.html;
+            expect(res).to.be.json;
             return chai.request(app)
               .get('/alltasks')
               .then(res => {
                 expect(res).to.be.json;
                 expect(res.body.data.length).to.equal(2);
               });
-          })
-          .catch(err => {
-            throw err;
           });
       });
     });
   });
-
-
 
 }); //end of most outer describe

@@ -23,7 +23,7 @@ const completeTask = (taskID) => {
   return fetch(`/alltasks/completed/${taskID}`, {
     method: 'put',
     headers: {
-      'Content-Type': 'html'
+      'Content-Type': 'application/json'
     }
   })
     .then(res => {
@@ -54,5 +54,5 @@ const deleteTask = taskID => {
 const undoComplete = taskID => {
   return fetch(`/alltasks/undo/${taskID}`, {
     method: 'put'
-  })
-}
+  });
+};

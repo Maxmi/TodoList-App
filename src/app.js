@@ -1,7 +1,8 @@
+require('dotenv').config();
 const express = require('express');
 const bodyParser = require('body-parser');
 const app = express();
-const routes = require('./server/index');
+const routes = require('./routes/index');
 
 app.set('view engine', 'pug');
 app.set('views', `${__dirname}/views`);

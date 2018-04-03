@@ -1,64 +1,104 @@
 const db = require('./db');
 
+/**
+ * Get all tasks from db
+ * @return {Promise} - Promise resolving to array of objects, each representing a task with id, description and status properties
+ */
 const getAllTasks = () => {
-  return db.any(`
-    SELECT * FROM allTasks ORDER BY id DESC;
-  `)
+  const query = `
+    SELECT *
+    FROM allTasks
+    ORDER BY id DESC
+  `;
+  return db.any(query);
 };
 
-
+/**
+ * Get one task by id
+ * @param  {Number} - id if of a task to get
+ * @return {Promise}  -  Promise resolving to object representing one task
+ */
 const getOneTask = (id) => {
-  return db.one(`
-    SELECT * FROM allTasks WHERE id = $1
-  `, [id])
+  const query = `
+    SELECT *
+    FROM allTasks
+    WHERE id = $1
+  `;
+  return db.one(query, [id]);
 };
 
-
+/**
+ * Add new task to db
+ * @param {String} description - String representing a task
+ * @param {Boolean} status     - Boolean representing status of a task ( false if current or true if complete)
+ * @return {Promise}   - Promise resolving to object representing a new task
+ */
 const addTask = (description, status) => {
-  return db.one(`
+  const query = `
     INSERT INTO allTasks (description, status)
     VALUES ($1, $2)
     RETURNING *
-  `, [description, status])
+  `;
+  return db.one(query, [description, status]);
 };
 
-
+/**
+ * Mark a task as completed in db
+ * @param  {Number} id - id of a task to be completed
+ * @return {Promise}   - Promise resolving to object representing a completed task
+ */
 const completeTask = (id) => {
-  return db.one (`
+  const query = `
     UPDATE allTasks
     SET status = true
     WHERE id = $1
     RETURNING *
-  `, [id])
+  `;
+  return db.one (query, [id]);
 };
 
-
+/**
+ * Edit description of a task
+ * @param  {Number} id      - id of a task to be updated
+ * @param  {String} newText - updated description of a task
+ * @return {Promise}        - Promise resolving to object representing a task with updated description
+ */
 const editTask = (id, newText) => {
-  return db.one(`
+  const query = `
     UPDATE allTasks
     SET description = $2
     WHERE id = $1
     RETURNING *
-  `, [id, newText])
+  `;
+  return db.one(query, [id, newText]);
 };
 
-
+/**
+ * Delete a task
+ * @param  {Number} id - id of a task to be deleted
+ */
 const deleteTask = (id) => {
-  return db.one(`
+  const query = `
     DELETE FROM allTasks
     WHERE id = $1
-    RETURNING *
-  `, [id])
+  `;
+  return db.none(query, [id]);
 };
 
 
+/**
+ * Undo a completed task (make it current again)
+ * @param  {Number} id - id of a task to be undoed
+ * @return {Promise}   - Promise resolving to object representing a task with status changed from true to false 
+ */
 const undoComplete = (id) => {
-  return db.one (`
+  const query = `
     UPDATE allTasks
     SET status = false
     WHERE id = $1
     RETURNING *
-  `, [id])
+  `;
+  return db.one (query, [id]);
 };
 
 module.exports = {
