@@ -4,6 +4,9 @@ const queries = require('../models/tasks');
 
 //route to get all tasks
 router.get('/', (req, res, next) => {
+  // bds: similar to the previous project, I would rather see
+  // bds: queries.getAllTasks() on the same line. It's a style
+  // bds: preference, though
   return queries
     .getAllTasks()
     .then(data => {
