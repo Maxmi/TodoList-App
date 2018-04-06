@@ -1,3 +1,4 @@
+// bds: add jsdoc's for this file! 
 const getAllTasks = () => {
   return fetch('/alltasks')
     .then(res => {
@@ -26,6 +27,8 @@ const completeTask = (taskID) => {
       'Content-Type': 'application/json'
     }
   })
+
+  // bds: this .then is completely unnecessary! :-)
     .then(res => {
       return res;
     });
@@ -39,6 +42,8 @@ const editTask = (taskID, text) => {
     },
     body: JSON.stringify({text})
   })
+
+  // bds: ditto, unnecessary .then
     .then(res => {
       return res;
     });

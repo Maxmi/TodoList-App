@@ -7,6 +7,8 @@ router.get('/', (req, res) => {
   res.render('index');
 });
 
+
+// bds: '/tasks' would be a more standard prefix for this router than '/alltasks'
 router.use('/alltasks', alltasks);
 
 module.exports = router;

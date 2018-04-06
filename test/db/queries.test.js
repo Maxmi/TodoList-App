@@ -11,6 +11,10 @@ const {truncateTable, resetTable} = require('./helpers');
 
 describe('database queries', () => {
 
+  // bds: since you use the same beforeEach for all of the tests in this "describe",
+  // bds: you can pull the beforeEach out here and just specify once, instead of 
+  // bds: specifying in each test individually.
+
   describe('getAllTasks', () => {
     context('when table is empty', () => {
       beforeEach(() => {

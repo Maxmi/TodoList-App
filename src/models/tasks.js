@@ -15,6 +15,7 @@ const getAllTasks = () => {
 
 /**
  * Get one task by id
+ * // bds: need to include parameter name here: @param { Number } id - ID of task to get.
  * @param  {Number} - id if of a task to get
  * @return {Promise}  -  Promise resolving to object representing one task
  */
@@ -33,6 +34,12 @@ const getOneTask = (id) => {
  * @param {Boolean} status     - Boolean representing status of a task ( false if current or true if complete)
  * @return {Promise}   - Promise resolving to object representing a new task
  */
+
+// bds: would you ever want to add a task that was already complete...?
+// bds: even if you did, the (much) more common scenario would be to add a 
+// bds: task with a status of "false". I would make "false" the default value
+// bds: and only specify a value if the status was actually "true" for the task
+// bds: you wanted to add
 const addTask = (description, status) => {
   const query = `
     INSERT INTO allTasks (description, status)
