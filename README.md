@@ -1,14 +1,22 @@
 # TodoList
-A full-stack single-page web application where users can create, edit, mark as complete, undo complete and delete tasks. 
 
-**** bds: do the above in a bulleted list. Also "undo complete" is hard to understand, especially in the middle of a sentence like that.
+## Summary
+My implementation of [To-Do List module of Learners Guild curriculum]  (https://curriculum.learnersguild.org/Phases/Practice/Modules/To-Do-List/).
+A full-stack single-page CRUD web application where users can:
+ - create,
+ - edit the text,
+ - check tasks as completed,
+ - undo completed task(check it as not completed),
+ - delete tasks.
 
-All interactions with server is done via AJAX.
 
-**** bds: rephrase to --  All interactions with the server are executed via AJAX.
-
-
-**** bds: is this a learning project? If so, be sure to link to the project instructions, what you wanted to learn from the project, and what you actually learned. 
+## What I learned doing this project:
+- using Express.js
+- building RESTful APIs using Express  
+- using Postgres to persist data in database
+- writing basic SQL queries  
+- using Fetch API to make HTTP requests  
+- using `contenteditable` attribute of HTML  
 
 # Built with:
 
@@ -16,7 +24,7 @@ All interactions with server is done via AJAX.
 * [Express](https://expressjs.com/)
 * [PostgreSQL](https://www.postgresql.org/)
 * [jquery](https://jquery.com/) for DOM manipulations
-* [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) for AJAX calls
+* [Fetch API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API)
 * [Pug](https://pugjs.org/)
 * [Bootstrap](https://getbootstrap.com/docs/4.0/getting-started/introduction/)
 
@@ -32,21 +40,16 @@ These instructions are for getting a copy of the project on your local environme
 
 # Setting up your database
 
-* Create database and tables - `npm run db:init` (make sure you don't have a db named "todolistapp" as this command will delete it)
-
-*** bds: put db name in backticks instead of double-quotes: `todolistapp`
+* Create database and tables - `npm run db:init` (make sure you don't have a db named `todolistapp` as this command will delete it)
 
 # Setting up your config
 
 * Run `cp .env.template .env` command in the terminal to create your own `.env` file and enter your config values in the `.env` file
 
-**** bds: similar to my comment on your other project: have NODE_ENV pre-filled to dev or production, or say in the "placeholder" text what the options are for this value
-
 # Starting your development server
 
 * Run `npm start`
-* To access the app go to `localhost:3000`
+* To access the app go to `http://localhost:3000`
 
-**** bds: `http://localhost:3000`
-
-**** bds: add a section for how to run tests!
+# Running tests  
+* Run `npm test` 

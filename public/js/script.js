@@ -10,7 +10,7 @@ $(document).ready(() => {
     return $('<li></li>')
       .addClass(`list-group-item ${isComplete ? 'checked' : 'current'} align-items-center`)
       .html(
-        // bds: I would recommend using a check mark character code in the "completed" box (https://www.rapidtables.com/web/html/html-codes/htm-code-check.html) 
+        // bds: I would recommend using a check mark character code in the "completed" box (https://www.rapidtables.com/web/html/html-codes/htm-code-check.html)
         // bds: instead of a V -- the V looks funny to me
         // bds: you might also consider &times; instead of the X in the "delete" box
         `
@@ -54,9 +54,9 @@ $(document).ready(() => {
 
   // handler for addTask button
   $('#addForm').submit(event => {
-    // bds: in general, event.preventDefault() is only necessary if there was 
+    // bds: in general, event.preventDefault() is only necessary if there was
     // bds: an event tied to the button (for example, if the button was a submit button
-    // bds: for a form). I don't think it's necessary here, or in the other places you 
+    // bds: for a form). I don't think it's necessary here, or in the other places you
     // bds: used it... but check to make sure (I didn't check.)
     event.preventDefault();
 

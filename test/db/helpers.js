@@ -8,7 +8,7 @@ function sql(file) {
   return new QueryFile(fullPath);
 }
 
-const table = ['alltasks'];
+const table = ['tasks'];
 
 const truncateTable = () => db.none(`
   TRUNCATE ${table} RESTART IDENTITY;

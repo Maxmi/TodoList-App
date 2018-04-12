@@ -4,11 +4,7 @@ const queries = require('../models/tasks');
 
 //route to get all tasks
 router.get('/', (req, res, next) => {
-  // bds: similar to the previous project, I would rather see
-  // bds: queries.getAllTasks() on the same line. It's a style
-  // bds: preference, though
-  return queries
-    .getAllTasks()
+  return queries.getAllTasks()
     .then(data => {
       res.status(200).json({ data });
     })
@@ -19,8 +15,7 @@ router.get('/', (req, res, next) => {
 router.post('/', (req, res, next) => {
   const { newTask } = req.body;
   const status = false;
-  return queries
-    .addTask(newTask, status)
+  return queries.addTask(newTask, status)
     .then(task => {
       res.status(200).json(task);
     })
@@ -30,8 +25,7 @@ router.post('/', (req, res, next) => {
 //route to get one task
 router.get('/:taskID', (req, res, next) => {
   const id = parseInt(req.params.taskID);
-  return queries
-    .getOneTask(id)
+  return queries.getOneTask(id)
     .then(task => {
       res.status(200).json(task);
     })
@@ -41,8 +35,7 @@ router.get('/:taskID', (req, res, next) => {
 //route to complete a task
 router.put('/completed/:taskID', (req, res, next) => {
   const taskID = parseInt(req.params.taskID);
-  return queries
-    .completeTask(taskID)
+  return queries.completeTask(taskID)
     .then(completedTask => {
       res.status(200).json(completedTask);
     })
@@ -54,8 +47,7 @@ router.put('/:taskID', (req, res, next) => {
   const taskID = parseInt(req.params.taskID);
   const newText = req.body.text;
 
-  return queries
-    .editTask(taskID, newText)
+  return queries.editTask(taskID, newText)
     .then(editedTask => {
       res.status(200).json(editedTask);
     })
@@ -65,8 +57,7 @@ router.put('/:taskID', (req, res, next) => {
 //route to delete a task
 router.delete('/:taskID', (req, res, next) => {
   const taskID = parseInt(req.params.taskID);
-  return queries
-    .deleteTask(taskID)
+  return queries.deleteTask(taskID)
     .then(() => {
       res.status(200).json();
     })
@@ -77,8 +68,7 @@ router.delete('/:taskID', (req, res, next) => {
 router.put('/undo/:taskID', (req, res, next) => {
   const taskID = parseInt(req.params.taskID);
 
-  return queries
-    .undoComplete(taskID)
+  return queries.undoComplete(taskID)
     .then(undoedTask => {
       res.status(200).json(undoedTask);
     })

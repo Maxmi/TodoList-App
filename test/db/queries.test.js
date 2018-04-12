@@ -10,11 +10,10 @@ const {
 const {truncateTable, resetTable} = require('./helpers');
 
 describe('database queries', () => {
-
-  // bds: since you use the same beforeEach for all of the tests in this "describe",
-  // bds: you can pull the beforeEach out here and just specify once, instead of 
-  // bds: specifying in each test individually.
-
+  //this hook runs for each test, that's why it's specified here
+  beforeEach(() => {
+    return resetTable();
+  });
   describe('getAllTasks', () => {
     context('when table is empty', () => {
       beforeEach(() => {
@@ -30,9 +29,6 @@ describe('database queries', () => {
     });
 
     context('when table is not empty', () => {
-      beforeEach(() => {
-        return resetTable();
-      });
       it('should return all tasks', () => {
         return getAllTasks()
           .then(tasks => {
@@ -44,14 +40,11 @@ describe('database queries', () => {
 
   describe('addTask', () => {
     context('when user adds new task', () => {
-      beforeEach(() => {
-        return resetTable();
-      });
       it('should save new task in db', () => {
         return addTask('new test task', 'false')
           .then(newTask => {
             expect(newTask.description).to.equal('new test task');
-            expect(newTask.status).to.equal(false);
+            expect(newTask.completed).to.equal(false);
           });
       });
     });
@@ -59,13 +52,10 @@ describe('database queries', () => {
 
   describe('completeTask', () => {
     context('when user clicks on green button (V) next to item', () => {
-      beforeEach(() => {
-        return resetTable();
-      });
-      it('should mark this item as completed and change status in db', () => {
+      it('should change the value of completed column in db to true', () => {
         return completeTask(1)
           .then(task => {
-            expect(task.status).to.equal(true);
+            expect(task.completed).to.equal(true);
           });
       });
     });
@@ -74,9 +64,6 @@ describe('database queries', () => {
 
   describe('editTask', () => {
     context('when user changes text of task', () => {
-      beforeEach(() => {
-        return resetTable();
-      });
       it('should save updated task in db', () => {
         return editTask(1, 'changed this test task')
           .then(task => {
@@ -89,9 +76,6 @@ describe('database queries', () => {
 
   describe('deleteTask', () => {
     context('when user clicks on red button (X) next to item', () => {
-      beforeEach(() => {
-        return resetTable();
-      });
       it('should remove that item from db', () => {
         return deleteTask(1)
           .then(() => {

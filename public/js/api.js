@@ -1,13 +1,13 @@
-// bds: add jsdoc's for this file! 
+// bds: add jsdoc's for this file!
 const getAllTasks = () => {
-  return fetch('/alltasks')
+  return fetch('/tasks')
     .then(res => {
       return res.json();
     });
 };
 
 const addTask = (newTask) => {
-  return fetch('/alltasks', {
+  return fetch('/tasks', {
     method: 'post',
     headers: {
       'Content-Type': 'application/json'
@@ -21,7 +21,7 @@ const addTask = (newTask) => {
 
 
 const completeTask = (taskID) => {
-  return fetch(`/alltasks/completed/${taskID}`, {
+  return fetch(`/tasks/completed/${taskID}`, {
     method: 'put',
     headers: {
       'Content-Type': 'application/json'
@@ -35,7 +35,7 @@ const completeTask = (taskID) => {
 };
 
 const editTask = (taskID, text) => {
-  return fetch(`/alltasks/${taskID}`, {
+  return fetch(`/tasks/${taskID}`, {
     method: 'put',
     headers: {
       'Content-Type': 'application/json'
@@ -50,14 +50,14 @@ const editTask = (taskID, text) => {
 };
 
 const deleteTask = taskID => {
-  return fetch(`/alltasks/${taskID}`, {
+  return fetch(`/tasks/${taskID}`, {
     method: 'delete'
   });
 };
 
 
 const undoComplete = taskID => {
-  return fetch(`/alltasks/undo/${taskID}`, {
+  return fetch(`/tasks/undo/${taskID}`, {
     method: 'put'
   });
 };

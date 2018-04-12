@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const alltasks = require('./tasks');
+const tasks = require('./tasks');
 
 //route to home page - GET
 router.get('/', (req, res) => {
@@ -8,7 +8,6 @@ router.get('/', (req, res) => {
 });
 
 
-// bds: '/tasks' would be a more standard prefix for this router than '/alltasks'
-router.use('/alltasks', alltasks);
+router.use('/tasks', tasks);
 
 module.exports = router;
