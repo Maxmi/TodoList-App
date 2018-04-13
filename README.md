@@ -1,25 +1,26 @@
 # TodoList
 
 ## Summary
-My implementation of [To-Do List module of Learners Guild curriculum]  (https://curriculum.learnersguild.org/Phases/Practice/Modules/To-Do-List/).
+My implementation of [To-Do List module of Learners Guild curriculum]  (https://curriculum.learnersguild.org/Phases/Practice/Modules/To-Do-List/).  
 A full-stack single-page CRUD web application where users can:
- - create,
- - edit the text,
+ - create tasks,
+ - edit the text of a task,
  - check tasks as completed,
  - undo completed task(check it as not completed),
- - delete tasks
- - filter tasks (view all, or only current, or only completed ones)
- - delete all completed tasks in bulk
- - toggle all tasks (make them all as completed or as current)
+ - delete tasks,  
+ - filter tasks (view all, or only current, or only completed ones), 
+ - delete all completed tasks in bulk, 
+ - toggle all tasks (check them all as completed or as not completed)  
 
 
 ## What I learned doing this project:
-- using Express.js
+- using Express.js  
 - building RESTful APIs using Express  
-- using Postgres to persist data in database
+- using Postgres to persist data in database  
 - writing basic SQL queries  
 - using Fetch API to make HTTP requests  
 - using `contenteditable` attribute of HTML  
+- using Mocha, Chai and chai-http for unit and intergration tests (db queries and routes)  
 
 # Built with:
 
