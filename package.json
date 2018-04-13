@@ -11,12 +11,13 @@
     "db:seed": "psql todolistapp < src/models/seed.sql",
     "db:drop": "dropdb todolistapp",
     "db:reset": "npm run db:drop && npm run db:create && npm run db:schema && npm run db:seed",
-    "test": "NODE_ENV=test && npm run test:db:reset && mocha --recursive --exit",
+
+    "test": "npm run test:db:reset && NODE_ENV=test mocha --recursive --exit",
     "test:db:create": "NODE_ENV=test dropdb --if-exists todolistapp_test && createdb todolistapp_test",
     "test:db:schema": "NODE_ENV=test psql todolistapp_test < src/models/schema.sql",
     "test:db:seed": "NODE_ENV=test psql todolistapp_test < src/models/seed.sql",
     "test:db:drop": "NODE_ENV=test dropdb todolistapp_test --if-exists",
-    "test:db:reset": "npm run test:db:drop && npm run test:db:create && npm run test:db:schema && npm run test:db:seed"
+    "test:db:reset": "NODE_ENV=test npm run test:db:create && npm run test:db:schema && npm run test:db:seed"
   },
   "author": "",
   "license": "ISC",

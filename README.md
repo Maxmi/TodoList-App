@@ -7,7 +7,10 @@ A full-stack single-page CRUD web application where users can:
  - edit the text,
  - check tasks as completed,
  - undo completed task(check it as not completed),
- - delete tasks.
+ - delete tasks
+ - filter tasks (view all, or only current, or only completed ones)
+ - delete all completed tasks in bulk
+ - toggle all tasks (make them all as completed or as current)
 
 
 ## What I learned doing this project:
@@ -52,4 +55,4 @@ These instructions are for getting a copy of the project on your local environme
 * To access the app go to `http://localhost:3000`
 
 # Running tests  
-* Run `npm test` 
+* Run `npm test`

@@ -44,8 +44,7 @@ $(document).ready(() => {
   // rendering retrieved info on the page
   const renderTasks = tasks => {
     getAllTasks().then(res => {
-      // bds: nice :-)
-      const content = res.data.map(task => createNewTaskElement(task));
+      const content = res.tasks.map(task => createNewTaskElement(task));
       $ul.html(content);
     });
   };
@@ -92,11 +91,6 @@ $(document).ready(() => {
     const id = li.data('id');
     let newText = span.text();
     editTask(id, newText);
-
-    // bds: no commented blocks in finished code!
-    //   .then(() => {
-    //   console.log(`Task with id ${id} edited`);
-    // });
   });
 
   // handler for red btn - delete task button
@@ -160,7 +154,7 @@ $(document).ready(() => {
     });
   });
 
-  //f ilters
+  //filters
   function resetFilters() {
     $('.filters')
       .children()

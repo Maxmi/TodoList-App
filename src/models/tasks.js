@@ -1,8 +1,8 @@
 const db = require('./db');
 
 /**
- * Get all tasks from db
- * @return { Promise } - Promise resolving to array of objects, each representing a task with id, description and status properties
+ * Function to get all tasks from db
+ * @return { Promise } - Promise resolving to array of objects, each representing a task with id, description and completed properties
  */
 const getAllTasks = () => {
   const query = `
@@ -14,7 +14,7 @@ const getAllTasks = () => {
 };
 
 /**
- * Get one task by id
+ * Function to get one task by id
  * @param  { Number } - ID of a task to get
  * @return { Promise } - Promise resolving to object representing one task
  */
@@ -28,9 +28,8 @@ const getOneTask = (id) => {
 };
 
 /**
- * Add new task to db
+ * Function to add new task to db
  * @param { String } description - String representing a task
- * @param { Boolean } completed  - Boolean representing status of a task ( false if current or true if complete)
  * @return { Promise }  - Promise resolving to object representing a new task
  */
 const addTask = (description) => {
@@ -43,7 +42,7 @@ const addTask = (description) => {
 };
 
 /**
- * Mark a task as completed in db
+ * Function to mark a task as completed in db
  * @param  { Number } id - ID of a task to be completed
  * @return { Promise }   - Promise resolving to object representing a completed task
  */
@@ -58,7 +57,7 @@ const completeTask = (id) => {
 };
 
 /**
- * Edit description of a task
+ * Function to edit description of a task
  * @param  { Number } id    - ID of a task to be updated
  * @param  { String } newText - updated description of a task
  * @return { Promise }        - Promise resolving to object representing a task with updated description
@@ -74,8 +73,8 @@ const editTask = (id, newText) => {
 };
 
 /**
- * Delete a task
- * @param  {Number} id - ID of a task to be deleted
+ * Function to delete a task
+ * @param  { Number } id - ID of a task to be deleted
  */
 const deleteTask = (id) => {
   const query = `
@@ -87,9 +86,9 @@ const deleteTask = (id) => {
 
 
 /**
- * Undo a completed task (make it current again)
- * @param  {Number} id - ID of a task to be undoed
- * @return {Promise}   - Promise resolving to object representing a task with status changed from true to false
+ * Function to undo a completed task (make it current again)
+ * @param  { Number } id - ID of a task to be undoed
+ * @return { Promise }   - Promise resolving to object representing a task with completed property changed from true to false
  */
 const undoComplete = (id) => {
   const query = `

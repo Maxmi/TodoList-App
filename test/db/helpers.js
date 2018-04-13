@@ -18,4 +18,5 @@ const seedFile = sql('../../src/models/seed.sql');
 const loadTable = () => db.none(seedFile);
 const resetTable = () => truncateTable().then(() => loadTable());
 
+
 module.exports = {truncateTable, resetTable};

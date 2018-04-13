@@ -5,8 +5,8 @@ const queries = require('../models/tasks');
 //route to get all tasks
 router.get('/', (req, res, next) => {
   return queries.getAllTasks()
-    .then(data => {
-      res.status(200).json({ data });
+    .then(tasks => {
+      res.status(200).json({ tasks });
     })
     .catch(next);
 });
@@ -14,8 +14,7 @@ router.get('/', (req, res, next) => {
 //route to add new task
 router.post('/', (req, res, next) => {
   const { newTask } = req.body;
-  const status = false;
-  return queries.addTask(newTask, status)
+  return queries.addTask(newTask)
     .then(task => {
       res.status(200).json(task);
     })
@@ -67,7 +66,6 @@ router.delete('/:taskID', (req, res, next) => {
 //route to undo complete of a task
 router.put('/undo/:taskID', (req, res, next) => {
   const taskID = parseInt(req.params.taskID);
-
   return queries.undoComplete(taskID)
     .then(undoedTask => {
       res.status(200).json(undoedTask);
