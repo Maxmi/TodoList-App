@@ -1,24 +1,17 @@
 $(document).ready(() => {
   // where new tasks will be mounted
-  // bds: use ul here instead of $ul -- or even better, taskList
-  const $ul = $('#listOfTasks');
-
+  const taskList = $('#listOfTasks');
   // wrapper for each task
   const createNewTaskElement = newTask => {
     const isComplete = newTask.status;
-
     return $('<li></li>')
       .addClass(`list-group-item ${isComplete ? 'checked' : 'current'} align-items-center`)
-      .html(
-        // bds: I would recommend using a check mark character code in the "completed" box (https://www.rapidtables.com/web/html/html-codes/htm-code-check.html)
-        // bds: instead of a V -- the V looks funny to me
-        // bds: you might also consider &times; instead of the X in the "delete" box
-        `
+      .html(`
           <div class='delete-btn'>
             <button
               class='deleteTask btn btn-danger btn-sm'
               type='submit'>
-              X
+              &times
             </button>
           </div>
 
@@ -26,18 +19,15 @@ $(document).ready(() => {
             <button
               type='submit'
               class='btn btn-outline-success btn-sm ${isComplete ? 'active undoTask' : 'completeTask'}'>
-              V
+              &#10003
             </button>
-
             <span
               contenteditable='true'
               name='text'
               class='text'>${newTask.description}
             </span>
-
           </div>
-    `
-      )
+    `)
       .data('id', newTask.id);
   };
 
@@ -45,30 +35,25 @@ $(document).ready(() => {
   const renderTasks = tasks => {
     getAllTasks().then(res => {
       const content = res.tasks.map(task => createNewTaskElement(task));
-      $ul.html(content);
+      taskList.html(content);
     });
   };
 
   renderTasks();
 
-  // handler for addTask button
+  // handler for + addTask button
   $('#addForm').submit(event => {
-    // bds: in general, event.preventDefault() is only necessary if there was
-    // bds: an event tied to the button (for example, if the button was a submit button
-    // bds: for a form). I don't think it's necessary here, or in the other places you
-    // bds: used it... but check to make sure (I didn't check.)
     event.preventDefault();
-
-    // bds: store this in a variable since it's used more than once: $('input[name="newTask"]')
-    let newTask = $('input[name="newTask"]').val();
+    let newTaskField = $('input[name="newTask"]');
+    let newTask = newTaskField.val();
 
     addTask(newTask).then(newTask => {
-      $ul.prepend(createNewTaskElement(newTask));
-      $('input[name="newTask"]').val('');
+      taskList.prepend(createNewTaskElement(newTask));
+      newTaskField.val('');
     });
   });
 
-  // handler for green btn (completing a task)
+  // handler for v btn (completing a task)
   $('#listOfTasks').on('click', '.completeTask', event => {
     const button = $(event.target);
     const li = button.parents('.list-group-item');
@@ -93,7 +78,7 @@ $(document).ready(() => {
     editTask(id, newText);
   });
 
-  // handler for red btn - delete task button
+  // handler for x btn - delete task button
   $('#listOfTasks').on('click', '.deleteTask', event => {
     const button = $(event.target);
     const li = button.parents('.list-group-item');
@@ -131,24 +116,23 @@ $(document).ready(() => {
       toggleBtn.removeClass('active');
     }
 
-    const itemsToToggle = $ul.children();
+    const itemsToToggle = taskList.children();
     itemsToToggle.each(function() {
 
-      // bds: use li here, not $li
-      const $li = $(this);
-      const id = $li.data('id');
-      const btnToComplete = $li.find('.completeTask');
-      const btnToUndo = $li.find('.undoTask');
+      const li = $(this);
+      const id = li.data('id');
+      const btnToComplete = li.find('.completeTask');
+      const btnToUndo = li.find('.undoTask');
 
-      if (!shouldCheck && $li.hasClass('current')) {
+      if (!shouldCheck && li.hasClass('current')) {
         completeTask(id).then(() => {
-          toDoAfterComplete($li, btnToComplete);
+          toDoAfterComplete(li, btnToComplete);
         });
       }
 
-      if (shouldCheck && $li.hasClass('checked')) {
+      if (shouldCheck && li.hasClass('checked')) {
         undoComplete(id).then(() => {
-          toDoAfterUndo(btnToUndo, $li);
+          toDoAfterUndo(btnToUndo, li);
         });
       }
     });
@@ -162,12 +146,12 @@ $(document).ready(() => {
   }
 
   function resetLists() {
-    const listItems = $ul.children();
+    const listItems = taskList.children();
     listItems.removeClass('hidden');
   }
 
   function setHidden(classNameToHide) {
-    const listItems = $ul.children();
+    const listItems = taskList.children();
     listItems.each(function() {
       if ($(this).hasClass(classNameToHide)) {
         $(this).addClass('hidden');
@@ -200,7 +184,7 @@ $(document).ready(() => {
   // delete all completed tasks
   $('.filters').on('click', '.clear-completed', event => {
     event.preventDefault();
-    const itemsToClear = $ul.children('.checked');
+    const itemsToClear = taskList.children('.checked');
     itemsToClear.each(function() {
       const id = $(this).data('id');
       deleteTask(id).then(() => {

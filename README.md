@@ -8,8 +8,8 @@ A full-stack single-page CRUD web application where users can:
  - check tasks as completed,
  - undo completed task(check it as not completed),
  - delete tasks,  
- - filter tasks (view all, or only current, or only completed ones), 
- - delete all completed tasks in bulk, 
+ - filter tasks (view all, or only current, or only completed ones),
+ - delete all completed tasks in bulk,
  - toggle all tasks (check them all as completed or as not completed)  
 
 

@@ -1,7 +1,6 @@
 body {
   width: 40%;
   margin: 0 auto;
-
 }
 
 .container {
@@ -22,7 +21,7 @@ h1 {
   text-align: center;
 }
 
-input#newTask {
+.form-control {
   font-style: italic;
 }
 
@@ -50,7 +49,7 @@ span.desciption {
   color: white;
 }
 
-#toggle-all {
+.toggle-all {
   margin-bottom: 5px;
 }
 
