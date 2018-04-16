@@ -1,7 +1,7 @@
 # TodoList
 
 ## Summary
-My implementation of [To-Do List module of Learners Guild curriculum]  (https://curriculum.learnersguild.org/Phases/Practice/Modules/To-Do-List/).  
+My implementation of [To-Do List module of Learners Guild curriculum](https://curriculum.learnersguild.org/Phases/Practice/Modules/To-Do-List/).  
 A full-stack single-page CRUD web application where users can:
  - create tasks,
  - edit the text of a task,
