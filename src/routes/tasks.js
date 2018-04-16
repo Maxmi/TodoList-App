@@ -32,6 +32,10 @@ router.get('/:taskID', (req, res, next) => {
 });
 
 //route to complete a task
+/*
+REVIEW COMMENT: Generally, I'd try not to name routes as a state, like "completed",
+and instead a verb, for example, "complete".
+*/
 router.put('/completed/:taskID', (req, res, next) => {
   const taskID = parseInt(req.params.taskID);
   return queries.completeTask(taskID)
