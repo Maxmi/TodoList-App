@@ -19,6 +19,20 @@ describe('routes', () => {
         return chai.request(app)
           .get('/tasks')
           .then(res => {
+            /* 
+              REVIEW COMMENT: I don't think there's anything wrong with really
+              strict testing like this, but I would break out a lot of these
+              test cases into a separate function and then just call that function
+              instead to keep it readable. Some function named something like 
+              `expectListOfTasks(req)` could perform every test case here 
+              except the length expectation, so that the body just reads 
+              like this:
+              ```
+              expectListOfTasks(req);
+              expect(res.body.tasks.length).to.equal(0);
+              ```
+              and expectListOfTasks could be used in both tests for this route.
+            */
             expect(res).to.be.json;
             expect(res).to.have.status(200);
             expect(res).to.have.property('body');
@@ -58,6 +72,19 @@ describe('routes', () => {
       let tasksLengthBeforePost;
       let tasksLengthAfterPost;
       it('should add new task', () => {
+        /* 
+          REVIEW COMMENT: Some of these tests are fairly long and involve a lot of nesting,
+          which can be awkwared to read. See if you can break them up some by
+          moving parts of them into before blocks. For example, the first two requests in
+          this test could reasonably be put in a before block, since they're essentially
+          just setup for checking the result of that final request.
+          You can make sure your test code waits for those earlier requests to finish
+          by using a "done" callback.
+
+          Resources on using a "done" callback:
+          https://gregjs.com/javascript/2015/asynchronous-tests-in-mocha-using-before-and-after-blocks/
+          https://mochajs.org/#asynchronous-code
+        */
         //sending GET request to get length of tasks array before POST
         return chai.request(app)
           .get('/tasks')
