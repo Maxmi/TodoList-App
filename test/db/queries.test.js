@@ -7,13 +7,16 @@ const {
   deleteTask,
 } = require('../../src/models/tasks');
 
-const {truncateTable, resetTable} = require('./helpers');
+const {
+  truncateTable,
+  resetTable,
+  resetAndCount,
+  countRows,
+  getPropertyValue,
+  resetAndGetPropValue
+} = require('../db/helpers');
 
 describe('database queries', () => {
-  //this hook runs for each test, that's why it's specified here
-  beforeEach(() => {
-    return resetTable();
-  });
   describe('getAllTasks', () => {
     context('when table is empty', () => {
       beforeEach(() => {
@@ -29,62 +32,95 @@ describe('database queries', () => {
     });
 
     context('when table is not empty', () => {
+      beforeEach(() => {
+        return resetTable();
+      });
       it('should return all tasks', () => {
         return getAllTasks()
           .then(tasks => {
-            expect(tasks.length).to.equal(3);
+            expect(tasks.length).to.be.above(0);
           });
       });
     });
   });
 
   describe('addTask', () => {
-    context('when user adds new task', () => {
-      it('should save new task in db', () => {
-        return addTask('new test task', 'false')
-          .then(newTask => {
-            expect(newTask.description).to.equal('new test task');
-            expect(newTask.completed).to.equal(false);
-          });
-      });
+    let taskCountBefore;
+    beforeEach(() => {
+      return resetAndCount()
+        .then(res => {
+          taskCountBefore = parseInt(res.count);
+        });
+    });
+    it('should save new task in db', () => {
+      return addTask('new test task', 'false')
+        .then(() => {
+          return countRows()
+            .then(res => {
+              expect(parseInt(res.count)).to.equal(taskCountBefore + 1);
+            });
+        });
     });
   });
 
   describe('completeTask', () => {
-    context('when user clicks on green button (V) next to item', () => {
-      it('should change the value of completed column in db to true', () => {
-        return completeTask(1)
-          .then(task => {
-            expect(task.completed).to.equal(true);
-          });
-      });
+    let propValueBefore;
+    beforeEach(() => {
+      return resetAndGetPropValue(1, 'completed')
+        .then(res => {
+          propValueBefore = res.completed;
+        });
+    });
+    it('should change the completed property of a task to true', () => {
+      return completeTask(1)
+        .then(() => {
+          return getPropertyValue(1, 'completed')
+            .then(res => {
+              expect(res.completed).to.not.equal(propValueBefore);
+              expect(res.completed).to.equal(true);
+            });
+        });
     });
   });
 
 
   describe('editTask', () => {
-    context('when user changes text of task', () => {
-      it('should save updated task in db', () => {
-        return editTask(1, 'changed this test task')
-          .then(task => {
-            expect(task.description).to.equal('changed this test task');
-          });
-      });
+    let propValueBefore;
+    beforeEach(() => {
+      return resetAndGetPropValue(1, 'description')
+        .then(res => {
+          propValueBefore = res.description;
+        });
+    });
+    it('should update the description property of a task', () => {
+      return editTask(1, 'changed this test task')
+        .then(() => {
+          return getPropertyValue(1, 'description')
+            .then(res => {
+              expect(res.description).to.not.equal(propValueBefore);
+              expect(res.description).to.equal('changed this test task');
+            });
+        });
     });
   });
 
 
   describe('deleteTask', () => {
-    context('when user clicks on red button (X) next to item', () => {
-      it('should remove that item from db', () => {
-        return deleteTask(1)
-          .then(() => {
-            return getAllTasks();
-          })
-          .then(list => {
-            expect(list).to.have.length(2);
-          });
-      });
+    let taskCountBefore;
+    beforeEach(() => {
+      return resetAndCount()
+        .then(res => {
+          taskCountBefore = parseInt(res.count);
+        });
+    });
+    it('should delete a task from db', () => {
+      return deleteTask(1)
+        .then(() => {
+          return countRows()
+            .then(res => {
+              expect(parseInt(res.count)).to.equal(taskCountBefore - 1);
+            });
+        });
     });
   });
 

@@ -32,7 +32,7 @@ router.get('/:taskID', (req, res, next) => {
 });
 
 //route to complete a task
-router.put('/completed/:taskID', (req, res, next) => {
+router.put('/complete/:taskID', (req, res, next) => {
   const taskID = parseInt(req.params.taskID);
   return queries.completeTask(taskID)
     .then(completedTask => {

@@ -14,9 +14,27 @@ const truncateTable = () => db.none(`
   TRUNCATE ${table} RESTART IDENTITY;
 `);
 
+const countRows = () => db.one(`
+  SELECT COUNT(id) FROM tasks;
+`);
+
+const getPropertyValue = (id, prop) => db.one(`
+  SELECT ${prop} FROM tasks WHERE id=${id};
+`);
+
 const seedFile = sql('../../src/models/seed.sql');
 const loadTable = () => db.none(seedFile);
 const resetTable = () => truncateTable().then(() => loadTable());
+const resetAndCount = () => resetTable().then(() => countRows());
+const resetAndGetPropValue = (id, prop) => resetTable().then(() => {
+  return getPropertyValue(id, prop);
+});
 
-
-module.exports = {truncateTable, resetTable};
+module.exports = {
+  truncateTable,
+  resetTable,
+  resetAndCount,
+  countRows,
+  getPropertyValue,
+  resetAndGetPropValue,
+};

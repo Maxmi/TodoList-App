@@ -34,7 +34,7 @@ const addTask = (newTask) => {
  */
 
 const completeTask = (taskID) => {
-  return fetch(`/tasks/completed/${taskID}`, {
+  return fetch(`/tasks/complete/${taskID}`, {
     method: 'put',
     headers: {
       'Content-Type': 'application/json'
