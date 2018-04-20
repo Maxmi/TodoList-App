@@ -7,7 +7,8 @@ const {
   resetAndCount,
   countRows,
   getPropertyValue,
-  resetAndGetPropValue
+  resetAndGetPropValue,
+  checkResponseObj
 } = require('../db/helpers');
 
 const app = require('../../src/app');
@@ -24,12 +25,7 @@ describe('routes', () => {
         return chai.request(app)
           .get('/tasks')
           .then(res => {
-            expect(res).to.be.json;
-            expect(res).to.have.status(200);
-            expect(res).to.have.property('body');
-            expect(res.body).to.be.a('object');
-            expect(res.body).to.have.property('tasks');
-            expect(res.body.tasks).to.be.a('array');
+            checkResponseObj(res);
             expect(res.body.tasks.length).to.equal(0);
           });
       });
@@ -42,12 +38,7 @@ describe('routes', () => {
         return chai.request(app)
           .get('/tasks')
           .then(res => {
-            expect(res).to.be.json;
-            expect(res).to.have.status(200);
-            expect(res).to.have.property('body');
-            expect(res.body).to.be.a('object');
-            expect(res.body).to.have.property('tasks');
-            expect(res.body.tasks).to.be.a('array');
+            checkResponseObj(res);
             expect(res.body.tasks).to.have.lengthOf.above(0);
             res.body.tasks.every(task => {
               expect(task).to.be.a('object');

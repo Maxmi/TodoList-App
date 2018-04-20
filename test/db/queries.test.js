@@ -97,7 +97,6 @@ describe('database queries', () => {
         .then(() => {
           return getPropertyValue(1, 'description')
             .then(res => {
-              expect(res.description).to.not.equal(propValueBefore);
               expect(res.description).to.equal('changed this test task');
             });
         });

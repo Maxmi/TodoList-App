@@ -2,6 +2,7 @@ require('dotenv').config({path: __dirname + '/../../.env'});
 const db = require('../../src/models/db');
 const {QueryFile} = require('pg-promise');
 const path = require('path');
+const {expect} = require('chai');
 
 function sql(file) {
   const fullPath = path.join(__dirname, file);
@@ -30,6 +31,15 @@ const resetAndGetPropValue = (id, prop) => resetTable().then(() => {
   return getPropertyValue(id, prop);
 });
 
+const checkResponseObj = (res) => {
+  expect(res).to.be.json;
+  expect(res).to.have.status(200);
+  expect(res).to.have.property('body');
+  expect(res.body).to.be.a('object');
+  expect(res.body).to.have.property('tasks');
+  expect(res.body.tasks).to.be.a('array');
+};
+
 module.exports = {
   truncateTable,
   resetTable,
@@ -37,4 +47,5 @@ module.exports = {
   countRows,
   getPropertyValue,
   resetAndGetPropValue,
+  checkResponseObj,
 };
